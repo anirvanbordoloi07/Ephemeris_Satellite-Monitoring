@@ -66,6 +66,52 @@ const alerts = [
   ["Medium", "New CDM Received: EphSat-1B / STARLINK-3214", "CDM #3 received. Miss distance stable at 580m. Low co-orbital relative velocity."]
 ];
 
+const dashboardNav = [
+  ["/dashboard", "Overview"],
+  ["/alerts", "Alerts"],
+  ["/fleet", "Fleet"],
+  ["/analytics", "Analytics"],
+  ["/audit-log", "Audit Log"],
+  ["/settings", "Settings"]
+];
+
+const fleetRows = [
+  ["EphSat-1A", "LEO Imaging", "Healthy", "11", "22 kg", "1 open event"],
+  ["EphSat-1B", "LEO Imaging", "Monitor", "14", "21 kg", "2 open events"],
+  ["EphSat-2A", "LEO Relay", "Maneuver Planned", "9", "18 kg", "Burn approved"],
+  ["EphSat-3", "LEO Broadband", "Critical Watch", "5", "26 kg", "TCA 7h 30m"],
+  ["EphSat-4A", "LEO Science", "Healthy", "28", "19 kg", "Nominal"]
+];
+
+const analyticsHighlights = [
+  ["Noise Reduction", "87%", "Compared with unfiltered conjunction review"],
+  ["Median Review Time", "18 min", "From alert creation to operator acknowledgement"],
+  ["Escalations Closed", "31", "High-risk events resolved this month"],
+  ["Maneuver Windows Saved", "6", "Cases where prioritization preserved decision time"]
+];
+
+const analyticsRows = [
+  ["Critical to review", "12 min", "14 min", "-14%"],
+  ["High-risk assessment", "21 min", "34 min", "-38%"],
+  ["Cross-team escalation", "32 min", "47 min", "-32%"],
+  ["Audit package prep", "9 min", "28 min", "-68%"]
+];
+
+const auditRows = [
+  ["2026-03-20 10:32 UTC", "Sarah Chen", "Approved maneuver review", "CDM-2026-04790", "Logged"],
+  ["2026-03-20 09:58 UTC", "Marcus Hill", "Raised risk severity", "CDM-2026-04821", "Logged"],
+  ["2026-03-20 09:11 UTC", "Autoprioritizer", "Re-ranked conjunction queue", "Fleet Queue", "System"],
+  ["2026-03-20 08:47 UTC", "Alicia Gomez", "Closed monitor-only alert", "CDM-2026-04850", "Logged"],
+  ["2026-03-19 21:03 UTC", "Mission Control", "Published end-of-day summary", "Daily Ops", "Archived"]
+];
+
+const settingsCards = [
+  ["Notification policy", "Critical events page on-call immediately. High-risk alerts notify fleet manager and analyst queue."],
+  ["Conjunction scoring", "Current weighting favors time-to-TCA, secondary object type, covariance realism, and maneuverability."],
+  ["Audit retention", "Decision records retained for 7 years with export-ready summaries and change history."],
+  ["Data sources", "Demo environment simulates CDM ingestion, orbit updates, and operator comments across a 24-satellite fleet."]
+];
+
 function SatelliteMark() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
@@ -134,7 +180,7 @@ function Header() {
   );
 }
 
-export function Layout({ title, description, children }) {
+export function Layout({ title, description, children, showHeader = true }) {
   useStars();
   return (
     <>
@@ -145,7 +191,7 @@ export function Layout({ title, description, children }) {
       </Head>
       <div className="site-shell">
         <canvas className="stars" aria-hidden="true"></canvas>
-        <Header />
+        {showHeader ? <Header /> : null}
         {children}
       </div>
     </>
@@ -369,34 +415,46 @@ export function LoginPage() {
   );
 }
 
+function DashboardSidebar({ activePath }) {
+  return (
+    <aside className="sidebar glass-card">
+      <Link className="brand" href="/dashboard">
+        <span className="brand-mark" aria-hidden="true"><SatelliteMark /></span>
+        <span className="brand-text" style={{ fontSize: "1.45rem" }}>Ephemeris</span>
+      </Link>
+      <nav>
+        {dashboardNav.map(([href, label]) => (
+          <Link className={activePath === href ? "active" : ""} href={href} key={href}>{label}</Link>
+        ))}
+      </nav>
+      <div className="profile">
+        <div className="muted">3 Notifications</div>
+        <strong>Sarah Chen</strong>
+        <div className="muted">Fleet Manager</div>
+      </div>
+    </aside>
+  );
+}
+
+function DashboardFrame({ activePath, title, description, children }) {
+  return (
+    <Layout title={title} description={description} showHeader={false}>
+      <div className="dashboard-shell">
+        <DashboardSidebar activePath={activePath} />
+        <main className="dashboard-main">{children}</main>
+      </div>
+    </Layout>
+  );
+}
+
 export function DashboardPage() {
   return (
-    <Layout
+    <DashboardFrame
+      activePath="/dashboard"
       title="Ephemeris Mission Control"
       description="Mission control dashboard for the migrated Ephemeris product experience."
     >
-      <div className="dashboard-shell">
-        <aside className="sidebar glass-card">
-          <Link className="brand" href="/">
-            <span className="brand-mark" aria-hidden="true"><SatelliteMark /></span>
-            <span className="brand-text" style={{ fontSize: "1.45rem" }}>Ephemeris</span>
-          </Link>
-          <nav>
-            <Link className="active" href="/dashboard">Overview</Link>
-            <Link href="/">Alerts</Link>
-            <Link href="/">Fleet</Link>
-            <Link href="/">Analytics</Link>
-            <Link href="/">Audit Log</Link>
-            <Link href="/">Settings</Link>
-          </nav>
-          <div className="profile">
-            <div className="muted">3 Notifications</div>
-            <strong>Sarah Chen</strong>
-            <div className="muted">Fleet Manager</div>
-          </div>
-        </aside>
-
-        <main className="dashboard-main">
+        <>
           <section className="dashboard-card glass-card">
             <div className="page-hero" style={{ marginBottom: 0 }}>
               <h1 style={{ fontSize: "2rem" }}>Mission Control</h1>
@@ -435,7 +493,7 @@ export function DashboardPage() {
             <div className="dashboard-card glass-card">
               <div className="panel-header">
                 <div className="panel-title">Alert Queue</div>
-                <Link className="muted" href="/">View all</Link>
+                <Link className="muted" href="/alerts">View all</Link>
               </div>
               <div className="alert-list">
                 {alerts.map(([level, title, body]) => (
@@ -484,8 +542,281 @@ export function DashboardPage() {
               </table>
             </div>
           </section>
-        </main>
-      </div>
-    </Layout>
+        </>
+    </DashboardFrame>
+  );
+}
+
+export function AlertsPage() {
+  return (
+    <DashboardFrame
+      activePath="/alerts"
+      title="Ephemeris Alerts"
+      description="Dummy alert queue for the Ephemeris collision monitoring interface."
+    >
+      <>
+        <section className="dashboard-card glass-card">
+          <div className="page-hero" style={{ marginBottom: 0 }}>
+            <h1 style={{ fontSize: "2rem" }}>Alerts</h1>
+            <p>Live-style dummy alert queue with severity-based triage, operator notes, and recommended next actions.</p>
+          </div>
+        </section>
+
+        <section className="dashboard-grid">
+          <div className="dashboard-card glass-card">
+            <div className="panel-header">
+              <div className="panel-title">Active Alert Queue</div>
+              <span className="muted">4 unresolved</span>
+            </div>
+            <div className="alert-list">
+              {alerts.map(([level, title, body]) => (
+                <article className="alert-item" key={title}>
+                  <div className={`alert-pill ${level.toLowerCase()}`}>{level}</div>
+                  <h3>{title}</h3>
+                  <p className="muted">{body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="dashboard-card glass-card">
+            <div className="panel-header">
+              <div className="panel-title">Operator Guidance</div>
+              <span className="muted">Dummy workflow</span>
+            </div>
+            <div className="features-grid single-column-grid">
+              {[
+                ["Triage", "Confirm event ownership and review the top two critical conjunctions within the next 30 minutes."],
+                ["Coordinate", "Share maneuver assumptions with flight dynamics and mark any object covariance concerns."],
+                ["Decide", "Document whether the event remains monitoring-only, requires escalation, or is entering maneuver review."]
+              ].map(([title, body]) => (
+                <article className="feature-card" key={title}>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="table-card glass-card">
+          <div className="panel-header">
+            <div className="panel-title">Alert History Snapshot</div>
+            <span className="muted">Past 24 hours</span>
+          </div>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Event</th>
+                  <th>Severity</th>
+                  <th>Owner</th>
+                  <th>Latest Action</th>
+                  <th>Updated</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  ["CDM-2026-04790", "Critical", "Sarah Chen", "Maneuver review opened", "7 min ago"],
+                  ["CDM-2026-04821", "Critical", "Marcus Hill", "Waiting on covariance check", "12 min ago"],
+                  ["CDM-2026-04842", "High", "Alicia Gomez", "Escalated after probability rise", "39 min ago"],
+                  ["CDM-2026-04850", "Medium", "Autoprioritizer", "Remains monitor-only", "1h ago"]
+                ].map((row) => (
+                  <tr key={row[0]}>{row.map((cell) => <td key={`${row[0]}-${cell}`}>{cell}</td>)}</tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </>
+    </DashboardFrame>
+  );
+}
+
+export function FleetPage() {
+  return (
+    <DashboardFrame
+      activePath="/fleet"
+      title="Ephemeris Fleet"
+      description="Dummy fleet status view for the Ephemeris dashboard."
+    >
+      <>
+        <section className="dashboard-card glass-card">
+          <div className="page-hero" style={{ marginBottom: 0 }}>
+            <h1 style={{ fontSize: "2rem" }}>Fleet</h1>
+            <p>Mission-level visibility across the demo constellation, including health status, propellant posture, and open conjunction activity.</p>
+          </div>
+        </section>
+
+        <section className="metrics-grid">
+          {[
+            ["24", "Tracked Spacecraft", "across 4 mission groups"],
+            ["5", "Satellites Under Watch", "open conjunction attention"],
+            ["1", "Planned Maneuver", "within 24 hours"],
+            ["92%", "Fleet Availability", "based on dummy uptime"],
+            ["18.6 kg", "Median Fuel Reserve", "remaining across fleet"],
+            ["3", "High-Priority Owners", "currently assigned"]
+          ].map(([value, label, detail]) => (
+            <div className="metric-card" key={label}>
+              <span className="metric-label">{label}</span>
+              <span className="metric-value">{value}</span>
+              <span className="metric-label">{detail}</span>
+            </div>
+          ))}
+        </section>
+
+        <section className="table-card glass-card">
+          <div className="panel-header">
+            <div className="panel-title">Fleet Status Board</div>
+            <span className="muted">Dummy operational data</span>
+          </div>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Satellite</th>
+                  <th>Mission</th>
+                  <th>Status</th>
+                  <th>Days Since Burn</th>
+                  <th>Fuel Reserve</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {fleetRows.map((row) => (
+                  <tr key={row[0]}>{row.map((cell) => <td key={`${row[0]}-${cell}`}>{cell}</td>)}</tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </>
+    </DashboardFrame>
+  );
+}
+
+export function AnalyticsPage() {
+  return (
+    <DashboardFrame
+      activePath="/analytics"
+      title="Ephemeris Analytics"
+      description="Dummy analytics view for the Ephemeris dashboard."
+    >
+      <>
+        <section className="dashboard-card glass-card">
+          <div className="page-hero" style={{ marginBottom: 0 }}>
+            <h1 style={{ fontSize: "2rem" }}>Analytics</h1>
+            <p>Dummy performance analytics showing how prioritization improves review speed, escalations, and mission response quality.</p>
+          </div>
+        </section>
+
+        <section className="metrics-grid">
+          {analyticsHighlights.map(([label, value, detail]) => (
+            <div className="metric-card" key={label}>
+              <span className="metric-label">{label}</span>
+              <span className="metric-value">{value}</span>
+              <span className="metric-label">{detail}</span>
+            </div>
+          ))}
+        </section>
+
+        <section className="table-card glass-card">
+          <div className="panel-header">
+            <div className="panel-title">Operational Efficiency</div>
+            <span className="muted">Dummy month-to-date trend</span>
+          </div>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Workflow</th>
+                  <th>Current</th>
+                  <th>Baseline</th>
+                  <th>Change</th>
+                </tr>
+              </thead>
+              <tbody>
+                {analyticsRows.map((row) => (
+                  <tr key={row[0]}>{row.map((cell) => <td key={`${row[0]}-${cell}`}>{cell}</td>)}</tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </>
+    </DashboardFrame>
+  );
+}
+
+export function AuditLogPage() {
+  return (
+    <DashboardFrame
+      activePath="/audit-log"
+      title="Ephemeris Audit Log"
+      description="Dummy audit log for the Ephemeris dashboard."
+    >
+      <>
+        <section className="dashboard-card glass-card">
+          <div className="page-hero" style={{ marginBottom: 0 }}>
+            <h1 style={{ fontSize: "2rem" }}>Audit Log</h1>
+            <p>Traceable dummy records for operator actions, system updates, and queue changes across the mission-control workflow.</p>
+          </div>
+        </section>
+
+        <section className="table-card glass-card">
+          <div className="panel-header">
+            <div className="panel-title">Decision History</div>
+            <span className="muted">Last 48 hours</span>
+          </div>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>Actor</th>
+                  <th>Action</th>
+                  <th>Scope</th>
+                  <th>Type</th>
+                </tr>
+              </thead>
+              <tbody>
+                {auditRows.map((row) => (
+                  <tr key={`${row[0]}-${row[2]}`}>{row.map((cell) => <td key={`${row[0]}-${cell}`}>{cell}</td>)}</tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </>
+    </DashboardFrame>
+  );
+}
+
+export function SettingsPage() {
+  return (
+    <DashboardFrame
+      activePath="/settings"
+      title="Ephemeris Settings"
+      description="Dummy settings view for the Ephemeris dashboard."
+    >
+      <>
+        <section className="dashboard-card glass-card">
+          <div className="page-hero" style={{ marginBottom: 0 }}>
+            <h1 style={{ fontSize: "2rem" }}>Settings</h1>
+            <p>Dummy configuration panels for notifications, scoring logic, data sources, and audit retention policy.</p>
+          </div>
+        </section>
+
+        <section className="operator-grid">
+          {settingsCards.map(([title, body]) => (
+            <article className="operator-card" key={title}>
+              <div className="operator-line" aria-hidden="true"></div>
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </article>
+          ))}
+        </section>
+      </>
+    </DashboardFrame>
   );
 }

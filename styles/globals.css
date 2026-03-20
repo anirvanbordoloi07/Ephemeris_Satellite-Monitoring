@@ -89,6 +89,7 @@ button { font: inherit; }
 .section-heading p { color:var(--muted); font-size:1.06rem; line-height:1.8; margin-top:14px; }
 .features-grid,.flow-grid,.product-grid { display:grid; gap:18px; }
 .features-grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+.single-column-grid { grid-template-columns:1fr; }
 .feature-card,.flow-card,.product-card,.operator-card,.comparison-card { padding:24px; }
 .feature-card h3,.flow-card h3,.product-card h3,.operator-card h3,.comparison-card h3 { margin:14px 0 8px; font-size:1.18rem; }
 .feature-card p,.flow-card p,.product-card p,.operator-card p,.comparison-card p { margin:0; color:var(--muted); line-height:1.72; }
