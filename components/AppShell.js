@@ -1,7 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect } from "react";
-import { useRouter } from "next/router";
 
 const metrics = [
   ["47", "Active Conjunctions Tracked"],
@@ -76,15 +75,7 @@ function useStars() {
   }, []);
 }
 
-export function openProductBridge(router) {
-  if (typeof window !== "undefined") {
-    window.open("https://github.com/Nolan-McKenna/ephemeris", "_blank", "noopener,noreferrer");
-    window.open("https://github.com/anirvanbordoloi07/ephemeris", "_blank", "noopener,noreferrer");
-  }
-  router.push("/product");
-}
-
-function Header({ productActive = false }) {
+function Header() {
   return (
     <header className="topbar">
       <div className="topbar-inner">
@@ -108,7 +99,7 @@ function Header({ productActive = false }) {
   );
 }
 
-export function Layout({ title, description, children, productActive = false }) {
+export function Layout({ title, description, children }) {
   useStars();
   return (
     <>
@@ -119,7 +110,7 @@ export function Layout({ title, description, children, productActive = false }) 
       </Head>
       <div className="site-shell">
         <canvas className="stars" aria-hidden="true"></canvas>
-        <Header productActive={productActive} />
+        <Header />
         {children}
       </div>
     </>
@@ -248,73 +239,6 @@ export function HomePage() {
   );
 }
 
-export function ProductPage() {
-  const router = useRouter();
-
-  return (
-    <Layout
-      title="Ephemeris Product Bridge"
-      description="Integrated product route for the Nolan ephemeris experience, your fork, and the migrated codebase."
-      productActive
-    >
-      <main className="page-wrap">
-        <div className="page-hero">
-          <div className="eyebrow">PRODUCT</div>
-          <h1>Seamless Bridge into the Nolan Ephemeris Experience</h1>
-          <p>
-            This route is the migration handoff. It keeps the investor-facing v0 product story, but now carries users directly
-            into the live Nolan ephemeris workflow while preserving clear source visibility across Nolan’s repo, your fork,
-            and the post-migration codebase.
-          </p>
-        </div>
-
-        <div className="product-grid">
-          <section className="iframe-wrap glass-card">
-            <iframe src="https://ephemeris-nine.vercel.app/" title="Embedded Nolan Ephemeris Product"></iframe>
-          </section>
-
-          <aside className="product-card">
-            <h3>Migration Summary</h3>
-            <p>
-              Everything that matters from the Nolan-based product experience is now accessible from a first-class `PRODUCT`
-              route rather than living as a disconnected separate app.
-            </p>
-
-            <div className="product-link-grid">
-              <a className="product-link" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">
-                <strong>Live Nolan Product</strong>
-                <span>Open the original live product directly for the full-screen experience.</span>
-              </a>
-              <a className="product-link" href="https://github.com/Nolan-McKenna/ephemeris" target="_blank" rel="noreferrer">
-                <strong>Nolan's Source Repo</strong>
-                <span>The original ephemeris codebase that powers the live application.</span>
-              </a>
-              <a className="product-link" href="https://github.com/anirvanbordoloi07/ephemeris" target="_blank" rel="noreferrer">
-                <strong>Your Forked Ephemeris Repo</strong>
-                <span>Your fork where the Nolan project stays preserved and can keep evolving under your account.</span>
-              </a>
-              <a className="product-link" href="https://github.com/anirvanbordoloi07/Ephemeris_Satellite-Monitoring" target="_blank" rel="noreferrer">
-                <strong>Post-Migration Repo</strong>
-                <span>The new home for this integrated marketing-plus-product bridge after migration.</span>
-              </a>
-            </div>
-
-            <div className="hero-actions">
-              <button className="btn btn-product" onClick={() => openProductBridge(router)}>Re-open Source Tabs</button>
-              <Link className="btn btn-secondary" href="/dashboard">View Demo Dashboard</Link>
-            </div>
-
-            <div className="login-note">
-              The embed is intentionally framed inside this route so users experience a smoother transition from story to product.
-              If they want the original application directly, the full product link above opens it.
-            </div>
-          </aside>
-        </div>
-      </main>
-    </Layout>
-  );
-}
-
 export function LoginPage() {
   return (
     <Layout
@@ -355,7 +279,6 @@ export function DashboardPage() {
     <Layout
       title="Ephemeris Mission Control"
       description="Mission control dashboard for the migrated Ephemeris product experience."
-      productActive
     >
       <div className="dashboard-shell">
         <aside className="sidebar glass-card">
@@ -365,7 +288,6 @@ export function DashboardPage() {
           </Link>
           <nav>
             <Link className="active" href="/dashboard">Overview</Link>
-            <Link href="/product">Product</Link>
             <Link href="/">Alerts</Link>
             <Link href="/">Fleet</Link>
             <Link href="/">Analytics</Link>
@@ -404,7 +326,7 @@ export function DashboardPage() {
                   <div className="panel-title">Orbital View</div>
                   <div className="panel-subtitle">Live migration framing</div>
                 </div>
-                <Link className="btn btn-product btn-pill" href="/product">Open Product</Link>
+                <a className="btn btn-product btn-pill" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">Open Product</a>
               </div>
               <div className="orbit-preview" style={{ minHeight: 260 }}>
                 <div className="earth" aria-hidden="true"></div>
@@ -435,7 +357,7 @@ export function DashboardPage() {
           <section className="table-card glass-card">
             <div className="panel-header">
               <div className="panel-title">Top Conjunction Events</div>
-              <Link className="muted" href="/product">View product route</Link>
+              <a className="muted" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">View product</a>
             </div>
             <div className="table-scroll">
               <table>
