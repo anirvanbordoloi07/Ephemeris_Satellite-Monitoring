@@ -85,8 +85,6 @@ export function openProductBridge(router) {
 }
 
 function Header({ productActive = false }) {
-  const router = useRouter();
-
   return (
     <header className="topbar">
       <div className="topbar-inner">
@@ -99,12 +97,11 @@ function Header({ productActive = false }) {
         <nav className="topnav" aria-label="Primary">
           <a href="/#features">Features</a>
           <a href="/#how-it-works">How It Works</a>
-          <Link className={productActive ? "active" : ""} href="/product">Product</Link>
           <a href="/#pricing">Pricing</a>
         </nav>
         <div className="topbar-actions">
           <Link className="btn btn-ghost" href="/login">Sign In</Link>
-          <button className="btn btn-primary" onClick={() => router.push("/dashboard")}>Get Started</button>
+          <Link className="btn btn-primary" href="/login">Get Started</Link>
         </div>
       </div>
     </header>
@@ -130,8 +127,6 @@ export function Layout({ title, description, children, productActive = false }) 
 }
 
 export function HomePage() {
-  const router = useRouter();
-
   return (
     <Layout
       title="Ephemeris - Satellite Collision Avoidance Intelligence"
@@ -139,50 +134,27 @@ export function HomePage() {
     >
       <main>
         <section className="hero">
-          <div className="section hero-grid">
-            <div>
-              <div className="eyebrow">Real-time conjunction analysis</div>
-              <h1>Decision Intelligence for <span>Satellite Safety</span></h1>
-              <p>
-                Ephemeris transforms raw conjunction data into prioritized, actionable intelligence.
-                This migration keeps the polished v0 experience while bridging directly into the Nolan-based live product and your forked repo.
-              </p>
-              <div className="hero-actions">
-                <Link className="btn btn-primary" href="/dashboard">Launch Dashboard</Link>
-                <a className="btn btn-secondary" href="#how-it-works">See How It Works</a>
-                <button className="btn btn-product" onClick={() => openProductBridge(router)}>Open Product</button>
-              </div>
-              <div className="hero-stats">
-                {metrics.map(([value, label]) => (
-                  <div className="metric-card" key={label}>
-                    <span className="metric-value">{value}</span>
-                    <span className="metric-label">{label}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="section hero-centered">
+            <div className="eyebrow">Real-time conjunction analysis</div>
+            <h1>Decision Intelligence for <span>Satellite Safety</span></h1>
+            <p>
+              Ephemeris transforms raw conjunction data into prioritized, actionable intelligence.
+              Our AI engine cuts through alert noise so your team can focus on decisions that matter
+              with full audit trails for compliance.
+            </p>
+            <div className="hero-actions hero-actions-centered">
+              <Link className="btn btn-primary" href="/dashboard">Launch Dashboard</Link>
+              <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
+              <a className="btn btn-secondary" href="#how-it-works">See How It Works</a>
             </div>
-            <aside className="hero-panel metric-card">
-              <div className="panel-header">
-                <div>
-                  <div className="panel-title">Integrated Product Bridge</div>
-                  <div className="panel-subtitle">v0 experience + Nolan ephemeris workflow</div>
+            <div className="hero-stats">
+              {metrics.map(([value, label]) => (
+                <div className="metric-card" key={label}>
+                  <span className="metric-value">{value}</span>
+                  <span className="metric-label">{label}</span>
                 </div>
-                <div className="alert-pill high">Live migration</div>
-              </div>
-              <div className="orbit-preview">
-                <div className="earth" aria-hidden="true"></div>
-                <div className="orbit one" aria-hidden="true"></div>
-                <div className="orbit two" aria-hidden="true"></div>
-                <div className="orbit-dot primary" aria-hidden="true"></div>
-                <div className="orbit-dot alert" aria-hidden="true"></div>
-              </div>
-              <div className="panel-grid">
-                <div className="mini-card"><span className="muted">Source of truth</span><strong>Nolan product</strong></div>
-                <div className="mini-card"><span className="muted">Post-migration repo</span><strong>Your GitHub</strong></div>
-                <div className="mini-card"><span className="muted">Product route</span><strong>/product</strong></div>
-                <div className="mini-card"><span className="muted">Experience</span><strong>Smooth handoff</strong></div>
-              </div>
-            </aside>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -190,8 +162,8 @@ export function HomePage() {
           <div className="section-heading">
             <h2>The Analysis-to-Action Layer</h2>
             <p>
-              The marketing story stays polished, but now the site exposes the real product in a first-class way.
-              Users can understand the value proposition, preview the workflow, and jump directly into the Nolan ephemeris experience.
+              Ephemeris sits between raw data and critical decisions. We close the gap that existing tools leave open
+              and turn data overload into decision clarity.
             </p>
           </div>
           <div className="features-grid">
@@ -216,15 +188,15 @@ export function HomePage() {
           <div className="section-heading">
             <h2>From Raw Data to Confident Decisions</h2>
             <p>
-              The highlighted `PRODUCT` button lives inside the workflow section because this is the exact handoff from positioning to live capability.
+              Four steps from CDM ingestion to audit-logged action. No manual sorting, no alert fatigue, no compliance gaps.
             </p>
           </div>
           <div className="flow-grid">
             {[
-              ["01", "Ingest", "CDMs and public ephemeris data are normalized into one operating picture for the fleet team."],
-              ["02", "Analyze", "Risk scoring, maneuverability context, and update history frame what is worth acting on."],
-              ["03", "Prioritize", "Operators see a focused queue of actionable events with context instead of noisy unranked alerts."],
-              ["04", "Decide", "Structured workflows capture approval, deferral, and maneuver outcomes with an audit trail."]
+              ["01", "Ingest", "CDMs from Space-Track, LeoLabs, and commercial providers flow into Ephemeris in real time. Every data point is parsed, normalized, and correlated with your fleet."],
+              ["02", "Analyze", "Our AI engine scores each conjunction event using multiple risk factors: object type, maneuverability, covariance realism, trajectory history, and time-to-TCA."],
+              ["03", "Prioritize", "Alerts are ranked by risk escalation likelihood. Your team sees a focused queue of actionable events instead of hundreds of unfiltered warnings."],
+              ["04", "Decide", "Approve, defer, or initiate maneuvers through structured workflows. Every decision is logged with full context for compliance and insurance records."]
             ].map(([step, title, body]) => (
               <article className="flow-card" key={step}>
                 <div className="step-badge">{step}</div>
@@ -232,42 +204,19 @@ export function HomePage() {
                 <p>{body}</p>
               </article>
             ))}
-
-            <article className="flow-card product-spotlight">
-              <div>
-                <div className="eyebrow">PRODUCT</div>
-                <h3>Seamless Product Hand-off</h3>
-                <p>
-                  When clicked, `PRODUCT` opens Nolan’s original ephemeris repo and your fork in new tabs, then brings the user into a dedicated product route with the live Nolan application embedded and contextualized.
-                </p>
-                <div className="product-actions">
-                  <button className="btn btn-product btn-pill" onClick={() => openProductBridge(router)}>PRODUCT</button>
-                  <Link className="btn btn-secondary" href="/product">Preview Product Route</Link>
-                </div>
-              </div>
-              <div className="mini-card" style={{ padding: 22 }}>
-                <strong>What is migrated into PRODUCT</strong>
-                <ul className="source-list">
-                  <li>Direct bridge to the live Nolan ephemeris interface at `ephemeris-nine.vercel.app`</li>
-                  <li>Source links to Nolan’s repo and your forked `ephemeris` repo</li>
-                  <li>The migrated post-launch codebase in your `Ephemeris_Satellite-Monitoring` repo</li>
-                  <li>A smoother narrative from marketing site to hands-on product</li>
-                </ul>
-              </div>
-            </article>
           </div>
         </section>
 
         <section className="section" id="pricing">
           <div className="section-heading">
             <h2>Protect Your Fleet</h2>
-            <p>Transparent pricing from the original v0 concept stays intact after migration.</p>
+            <p>Transparent per-fleet pricing. No per-CDM charges, no hidden fees.</p>
           </div>
           <div className="pricing-grid">
             {[
-              ["Starter", "For operators with small constellations.", "$2,500", "/mo", ["Up to 5 satellites", "Real-time CDM ingestion", "AI alert prioritization", "Basic audit logging", "Email notifications"]],
-              ["Professional", "For growing fleet operators.", "$8,000", "/mo", ["Up to 50 satellites", "Advanced risk evolution analytics", "Maneuver decision workflows", "Full audit trail with PDF export", "API access"], true],
-              ["Enterprise", "For large constellations and insurers.", "Custom", "", ["Unlimited satellites", "SSO / SAML integration", "Insurance-grade compliance reports", "Ground system API integration", "Dedicated support"]]
+              ["Starter", "For operators with small constellations", "$2,500", "/mo", ["Up to 5 satellites", "Real-time CDM ingestion", "AI alert prioritization", "Basic audit logging", "Email notifications"]],
+              ["Professional", "For growing fleet operators", "$8,000", "/mo", ["Up to 50 satellites", "Advanced risk evolution analytics", "Maneuver decision workflows", "Full audit trail with PDF export", "API access"], true],
+              ["Enterprise", "For large constellations and insurers", "Custom", "", ["Unlimited satellites", "SSO / SAML integration", "Insurance-grade compliance reports", "Ground system API integration", "Dedicated support"]]
             ].map(([title, desc, price, suffix, bullets, featured]) => (
               <article className={`pricing-card${featured ? " featured" : ""}`} key={title}>
                 <h3>{title}</h3>
@@ -286,11 +235,12 @@ export function HomePage() {
         <div className="page-wrap footer-card glass-card">
           <div>
             <strong>Ephemeris</strong>
-            <div className="muted">Satellite collision avoidance intelligence with a live product bridge.</div>
+            <div className="muted">Satellite Collision Avoidance Intelligence. Built for operators, trusted by insurers.</div>
           </div>
           <div className="hero-actions" style={{ marginTop: 0 }}>
-            <a className="btn btn-ghost" href="https://github.com/anirvanbordoloi07/Ephemeris_Satellite-Monitoring" target="_blank" rel="noreferrer">Migration Repo</a>
-            <Link className="btn btn-product" href="/product">Open Product</Link>
+            <a className="btn btn-ghost" href="/">Privacy</a>
+            <a className="btn btn-ghost" href="/">Terms</a>
+            <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
           </div>
         </div>
       </footer>
