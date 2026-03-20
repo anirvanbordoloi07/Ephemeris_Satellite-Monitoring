@@ -9,6 +9,39 @@ const metrics = [
   ["87%", "Alert Noise Reduced"]
 ];
 
+const signalCards = [
+  ["Live TCA Window", "7h 30m", "Critical event EphSat-3 vs IRIDIUM 33 debris is already triaged with maneuver review in progress."],
+  ["Decision Confidence", "94%", "Operator-facing recommendations surface why an event is urgent instead of just exposing raw CDM volume."],
+  ["Audit Completeness", "100%", "Every action, escalation, and rationale is preserved in a mission-ready decision trail."]
+];
+
+const operatorPanels = [
+  ["Prioritized Queue", "See the events that actually need action first, with risk momentum and maneuverability surfaced immediately."],
+  ["Risk Evolution", "Track how probability, miss distance, and urgency shift across updates instead of comparing snapshots manually."],
+  ["Decision Support", "Frame maneuver timing, delta-v implications, and review windows in a format operators can act on quickly."],
+  ["Mission Oversight", "Monitor fleet health, unresolved alerts, and team response posture from a single operating surface."]
+];
+
+const workflowSteps = [
+  ["01", "Ingest operational data", "Bring in conjunction messages, orbit updates, and fleet context so every event starts from normalized operational data."],
+  ["02", "Score real mission risk", "Rank events using escalation likelihood, object characteristics, time-to-TCA, and decision urgency rather than raw probability alone."],
+  ["03", "Focus the operator queue", "Push the most consequential conjunctions to the top while lower-signal events remain visible without overwhelming the team."],
+  ["04", "Decide with traceability", "Move from review to action with complete context, documented rationale, and compliance-ready recordkeeping."]
+];
+
+const comparisonRows = [
+  ["Raw CDM monitoring", "Operators manually sort high-volume alerts with limited decision context.", "Ephemeris surfaces a prioritized queue with urgency, timing, and rationale."],
+  ["Snapshot-only tools", "Teams compare updates by hand and infer escalation from scattered data points.", "Risk evolution is visible directly in the workflow with trend-aware framing."],
+  ["Fragmented operations", "Alert review, maneuver planning, and audit logging live in separate tools.", "Analysis, action, and traceability live in one integrated mission-control surface."]
+];
+
+const trustPoints = [
+  "Mission-control visual layer built for operators, not generic dashboards.",
+  "Structured decision workflows with audit-ready logging and review context.",
+  "Clear separation between active threats, monitor-only events, and planned maneuvers.",
+  "Direct bridge into the live product through the homepage PRODUCT action."
+];
+
 const dashboardMetrics = [
   ["22/24", "Fleet Satellites", "operational"],
   ["47", "Active Conjunctions", "being tracked"],
@@ -86,11 +119,13 @@ function Header() {
           <span className="brand-text">Ephemeris</span>
         </Link>
         <nav className="topnav" aria-label="Primary">
-          <a href="/#features">Features</a>
-          <a href="/#how-it-works">How It Works</a>
-          <a href="/#pricing">Pricing</a>
+          <a href="/#platform">Platform</a>
+          <a href="/#operator-view">Operator View</a>
+          <a href="/#workflow">Workflow</a>
+          <a href="/#trust">Trust</a>
         </nav>
         <div className="topbar-actions">
+          <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
           <Link className="btn btn-ghost" href="/login">Sign In</Link>
           <Link className="btn btn-primary" href="/login">Get Started</Link>
         </div>
@@ -121,50 +156,79 @@ export function HomePage() {
   return (
     <Layout
       title="Ephemeris - Satellite Collision Avoidance Intelligence"
-      description="Decision intelligence for satellite safety with a seamlessly integrated product bridge into the Nolan ephemeris experience."
+      description="Decision intelligence for satellite safety with a polished mission-control experience and direct access to the live product."
     >
       <main>
         <section className="hero">
-          <div className="section hero-centered">
-            <div className="eyebrow">Real-time conjunction analysis</div>
-            <h1>Decision Intelligence for <span>Satellite Safety</span></h1>
-            <p>
-              Ephemeris transforms raw conjunction data into prioritized, actionable intelligence.
-              Our AI engine cuts through alert noise so your team can focus on decisions that matter
-              with full audit trails for compliance.
-            </p>
-            <div className="hero-actions hero-actions-centered">
-              <Link className="btn btn-primary" href="/dashboard">Launch Dashboard</Link>
-              <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
-              <a className="btn btn-secondary" href="#how-it-works">See How It Works</a>
+          <div className="section hero-grid">
+            <div className="hero-copy">
+              <div className="eyebrow">Real-time conjunction intelligence</div>
+              <h1>Decision Intelligence for <span>Satellite Safety</span></h1>
+              <p>
+                Ephemeris turns raw conjunction data into a focused operator workflow. Review the
+                highest-risk events first, understand how risk is evolving, and move from alert to
+                action with clear audit trails and product-grade mission context.
+              </p>
+              <div className="hero-actions">
+                <Link className="btn btn-primary" href="/dashboard">Launch Dashboard</Link>
+                <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
+                <a className="btn btn-secondary" href="#workflow">See Workflow</a>
+              </div>
+              <div className="hero-note">Built for satellite operators, mission teams, and collision-risk review workflows.</div>
+              <div className="hero-stats">
+                {metrics.map(([value, label]) => (
+                  <div className="metric-card" key={label}>
+                    <span className="metric-value">{value}</span>
+                    <span className="metric-label">{label}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="hero-stats">
-              {metrics.map(([value, label]) => (
-                <div className="metric-card" key={label}>
-                  <span className="metric-value">{value}</span>
-                  <span className="metric-label">{label}</span>
+
+            <aside className="hero-panel glass-card">
+              <div className="panel-header">
+                <div>
+                  <div className="panel-title">Live Operator Snapshot</div>
+                  <div className="panel-subtitle">What the team sees when a conjunction starts to escalate</div>
                 </div>
-              ))}
-            </div>
+                <div className="alert-pill critical">Critical</div>
+              </div>
+              <div className="orbit-preview">
+                <div className="earth" aria-hidden="true"></div>
+                <div className="orbit one" aria-hidden="true"></div>
+                <div className="orbit two" aria-hidden="true"></div>
+                <div className="orbit-dot primary" aria-hidden="true"></div>
+                <div className="orbit-dot alert" aria-hidden="true"></div>
+              </div>
+              <div className="panel-grid">
+                {signalCards.map(([label, value, body]) => (
+                  <div className="mini-card" key={label}>
+                    <span className="metric-label">{label}</span>
+                    <strong>{value}</strong>
+                    <span className="muted">{body}</span>
+                  </div>
+                ))}
+              </div>
+            </aside>
           </div>
         </section>
 
-        <section className="section" id="features">
+        <section className="section" id="platform">
           <div className="section-heading">
             <h2>The Analysis-to-Action Layer</h2>
             <p>
-              Ephemeris sits between raw data and critical decisions. We close the gap that existing tools leave open
-              and turn data overload into decision clarity.
+              Ephemeris sits between raw orbital data and mission decisions. The interface is designed
+              to feel like a working control surface, not a generic SaaS dashboard.
             </p>
           </div>
           <div className="features-grid">
             {[
-              ["AI", "AI Alert Prioritization", "Focus operators on the conjunctions most likely to escalate instead of drowning them in raw alert volume."],
-              ["CDM", "Risk Evolution Tracking", "Track how probability and miss distance evolve across updates so the team sees risk momentum, not just snapshots."],
-              ["OPS", "Fleet-Wide Analytics", "Monitor constellation health, maneuver history, and response metrics from one coherent mission-control surface."],
-              ["LOG", "Audit-Ready Compliance", "Capture decision context with timestamps and generate insurance- and regulator-friendly audit trails."],
-              ["DV", "Maneuver Decision Support", "Pair operator workflows with delta-v framing, timing windows, and clean escalation language."],
-              ["INT", "Integrated Product Experience", "The new product bridge folds the Nolan ephemeris tool into this experience instead of leaving it disconnected."]
+              ["AI", "AI Alert Prioritization", "Surface the conjunctions most likely to require action first so operators spend time on decisions, not sorting."],
+              ["CDM", "Risk Evolution Tracking", "Show how miss distance, probability, and urgency change across updates to reveal momentum, not just snapshots."],
+              ["OPS", "Fleet-Wide Oversight", "Keep fleet health, response load, maneuver posture, and unresolved events visible in one coherent operating surface."],
+              ["LOG", "Audit-Ready Decisions", "Capture review context, escalation paths, and outcomes in a traceable log that stands up to compliance scrutiny."],
+              ["DV", "Maneuver Framing", "Present timing windows and decision implications in a way that supports fast operator judgment under pressure."],
+              ["INT", "Direct Product Access", "A prominently integrated PRODUCT action takes users straight into the live operational experience."]
             ].map(([badge, title, body]) => (
               <article className="feature-card" key={title}>
                 <div className="icon-badge">{badge}</div>
@@ -175,22 +239,18 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className="section" id="how-it-works">
+        <section className="section" id="operator-view">
           <div className="section-heading">
-            <h2>From Raw Data to Confident Decisions</h2>
+            <h2>What Operators See</h2>
             <p>
-              Four steps from CDM ingestion to audit-logged action. No manual sorting, no alert fatigue, no compliance gaps.
+              The homepage now previews the actual working posture of the product: a triaged queue,
+              risk-aware views, decision framing, and fleet-wide oversight.
             </p>
           </div>
-          <div className="flow-grid">
-            {[
-              ["01", "Ingest", "CDMs from Space-Track, LeoLabs, and commercial providers flow into Ephemeris in real time. Every data point is parsed, normalized, and correlated with your fleet."],
-              ["02", "Analyze", "Our AI engine scores each conjunction event using multiple risk factors: object type, maneuverability, covariance realism, trajectory history, and time-to-TCA."],
-              ["03", "Prioritize", "Alerts are ranked by risk escalation likelihood. Your team sees a focused queue of actionable events instead of hundreds of unfiltered warnings."],
-              ["04", "Decide", "Approve, defer, or initiate maneuvers through structured workflows. Every decision is logged with full context for compliance and insurance records."]
-            ].map(([step, title, body]) => (
-              <article className="flow-card" key={step}>
-                <div className="step-badge">{step}</div>
+          <div className="operator-grid">
+            {operatorPanels.map(([title, body]) => (
+              <article className="operator-card" key={title}>
+                <div className="operator-line" aria-hidden="true"></div>
                 <h3>{title}</h3>
                 <p>{body}</p>
               </article>
@@ -198,25 +258,60 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className="section" id="pricing">
+        <section className="section" id="workflow">
           <div className="section-heading">
-            <h2>Protect Your Fleet</h2>
-            <p>Transparent per-fleet pricing. No per-CDM charges, no hidden fees.</p>
+            <h2>From Raw Data to Confident Decisions</h2>
+            <p>
+              A cleaner, guided workflow from ingestion to action, with a clear path into the live
+              product and no dead-end pages.
+            </p>
           </div>
-          <div className="pricing-grid">
-            {[
-              ["Starter", "For operators with small constellations", "$2,500", "/mo", ["Up to 5 satellites", "Real-time CDM ingestion", "AI alert prioritization", "Basic audit logging", "Email notifications"]],
-              ["Professional", "For growing fleet operators", "$8,000", "/mo", ["Up to 50 satellites", "Advanced risk evolution analytics", "Maneuver decision workflows", "Full audit trail with PDF export", "API access"], true],
-              ["Enterprise", "For large constellations and insurers", "Custom", "", ["Unlimited satellites", "SSO / SAML integration", "Insurance-grade compliance reports", "Ground system API integration", "Dedicated support"]]
-            ].map(([title, desc, price, suffix, bullets, featured]) => (
-              <article className={`pricing-card${featured ? " featured" : ""}`} key={title}>
+          <div className="flow-grid">
+            {workflowSteps.map(([step, title, body]) => (
+              <article className="flow-card" key={step}>
+                <div className="step-badge">{step}</div>
                 <h3>{title}</h3>
-                <p>{desc}</p>
-                <div className="price">{price} {suffix ? <span>{suffix}</span> : null}</div>
-                <ul>
-                  {bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}
-                </ul>
+                <p>{body}</p>
               </article>
+            ))}
+          </div>
+          <div className="workflow-cta glass-card">
+            <div>
+              <strong>Ready to open the live product?</strong>
+              <div className="muted">Jump directly into the operational Ephemeris experience from the homepage.</div>
+            </div>
+            <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">Open PRODUCT</a>
+          </div>
+        </section>
+
+        <section className="section" id="trust">
+          <div className="section-heading">
+            <h2>Why This Interface Works Better</h2>
+            <p>
+              The product story is sharper when we show the operational difference clearly:
+              fewer manual comparisons, less alert noise, and better decision visibility.
+            </p>
+          </div>
+          <div className="comparison-grid">
+            {comparisonRows.map(([title, before, after]) => (
+              <article className="comparison-card" key={title}>
+                <div className="comparison-label">{title}</div>
+                <div className="comparison-body">
+                  <div>
+                    <span className="comparison-heading">Without Ephemeris</span>
+                    <p>{before}</p>
+                  </div>
+                  <div>
+                    <span className="comparison-heading accent">With Ephemeris</span>
+                    <p>{after}</p>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+          <div className="trust-strip">
+            {trustPoints.map((point) => (
+              <div className="trust-item" key={point}>{point}</div>
             ))}
           </div>
         </section>
@@ -226,7 +321,7 @@ export function HomePage() {
         <div className="page-wrap footer-card glass-card">
           <div>
             <strong>Ephemeris</strong>
-            <div className="muted">Satellite Collision Avoidance Intelligence. Built for operators, trusted by insurers.</div>
+            <div className="muted">Satellite collision avoidance intelligence designed around real operator workflow.</div>
           </div>
           <div className="hero-actions" style={{ marginTop: 0 }}>
             <a className="btn btn-ghost" href="/">Privacy</a>
