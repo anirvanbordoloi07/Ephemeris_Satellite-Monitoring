@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in to Ephemeris</title>
+    <meta name="description" content="Demo login for the migrated Ephemeris mission-control experience.">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="site-shell">
+      <canvas class="stars" aria-hidden="true"></canvas>
+      <header class="topbar">
+        <div class="topbar-inner">
+          <a class="brand" href="/">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m13.5 6.5-3.15-3.15a1.2 1.2 0 0 0-1.7 0L6.35 5.65a1.2 1.2 0 0 0 0 1.7L9.5 10.5"></path>
+                <path d="M16.5 7.5 19 5"></path>
+                <path d="m17.5 10.5 3.15 3.15a1.2 1.2 0 0 1 0 1.7l-2.3 2.3a1.2 1.2 0 0 1-1.7 0L13.5 14.5"></path>
+                <path d="M9 21a6 6 0 0 0-6-6"></path>
+                <path d="M9.35 10.65a1.2 1.2 0 0 0 0 1.7l2.3 2.3a1.2 1.2 0 0 0 1.7 0l4.3-4.3a1.2 1.2 0 0 0 0-1.7l-2.3-2.3a1.2 1.2 0 0 0-1.7 0z"></path>
+              </svg>
+            </span>
+            <span class="brand-text">Ephemeris</span>
+          </a>
+          <nav class="topnav" aria-label="Primary">
+            <a href="/">Overview</a>
+            <a href="/product">Product</a>
+            <a href="/dashboard">Dashboard</a>
+          </nav>
+          <div class="topbar-actions">
+            <a class="btn btn-primary" href="/dashboard">Open Dashboard</a>
+          </div>
+        </div>
+      </header>
+
+      <main class="login-wrap">
+        <section class="login-card glass-card">
+          <div class="brand" style="justify-content: center; margin-bottom: 22px;">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m13.5 6.5-3.15-3.15a1.2 1.2 0 0 0-1.7 0L6.35 5.65a1.2 1.2 0 0 0 0 1.7L9.5 10.5"></path>
+                <path d="M16.5 7.5 19 5"></path>
+                <path d="m17.5 10.5 3.15 3.15a1.2 1.2 0 0 1 0 1.7l-2.3 2.3a1.2 1.2 0 0 1-1.7 0L13.5 14.5"></path>
+                <path d="M9 21a6 6 0 0 0-6-6"></path>
+                <path d="M9.35 10.65a1.2 1.2 0 0 0 0 1.7l2.3 2.3a1.2 1.2 0 0 0 1.7 0l4.3-4.3a1.2 1.2 0 0 0 0-1.7l-2.3-2.3a1.2 1.2 0 0 0-1.7 0z"></path>
+              </svg>
+            </span>
+          </div>
+          <div class="page-hero" style="margin-bottom: 22px;">
+            <h1 style="font-size: 2rem; text-align: center;">Sign in to Ephemeris</h1>
+            <p style="text-align: center;">Satellite collision avoidance intelligence with product migration built in.</p>
+          </div>
+          <form action="/dashboard">
+            <div class="field">
+              <label for="email">Email</label>
+              <input id="email" type="email" value="sarah@ephemeris.space" required>
+            </div>
+            <div class="field">
+              <label for="password">Password</label>
+              <input id="password" type="password" value="password123" required>
+            </div>
+            <button class="btn btn-primary" type="submit">Sign In</button>
+          </form>
+          <div class="login-note">
+            Demo credentials are pre-filled. This preserves the frictionless v0 login concept while routing users toward
+            the new integrated product flow.
+          </div>
+        </section>
+      </main>
+      <script src="/site.js"></script>
+    </div>
+  </body>
+</html>

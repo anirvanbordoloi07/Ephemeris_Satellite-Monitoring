@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ephemeris Product Bridge</title>
+    <meta name="description" content="Integrated product route for the Nolan ephemeris experience, your fork, and the migrated codebase.">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="site-shell">
+      <canvas class="stars" aria-hidden="true"></canvas>
+      <header class="topbar">
+        <div class="topbar-inner">
+          <a class="brand" href="/">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m13.5 6.5-3.15-3.15a1.2 1.2 0 0 0-1.7 0L6.35 5.65a1.2 1.2 0 0 0 0 1.7L9.5 10.5"></path>
+                <path d="M16.5 7.5 19 5"></path>
+                <path d="m17.5 10.5 3.15 3.15a1.2 1.2 0 0 1 0 1.7l-2.3 2.3a1.2 1.2 0 0 1-1.7 0L13.5 14.5"></path>
+                <path d="M9 21a6 6 0 0 0-6-6"></path>
+                <path d="M9.35 10.65a1.2 1.2 0 0 0 0 1.7l2.3 2.3a1.2 1.2 0 0 0 1.7 0l4.3-4.3a1.2 1.2 0 0 0 0-1.7l-2.3-2.3a1.2 1.2 0 0 0-1.7 0z"></path>
+              </svg>
+            </span>
+            <span class="brand-text">Ephemeris</span>
+          </a>
+          <nav class="topnav" aria-label="Primary">
+            <a href="/">Overview</a>
+            <a class="active" href="/product">Product</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/login">Login</a>
+          </nav>
+          <div class="topbar-actions">
+            <a class="btn btn-ghost" href="https://github.com/anirvanbordoloi07/Ephemeris_Satellite-Monitoring" target="_blank" rel="noopener noreferrer">Repo</a>
+            <a class="btn btn-primary" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noopener noreferrer">Launch Full Product</a>
+          </div>
+        </div>
+      </header>
+
+      <main class="page-wrap">
+        <div class="page-hero">
+          <div class="eyebrow">PRODUCT</div>
+          <h1>Seamless Bridge into the Nolan Ephemeris Experience</h1>
+          <p>
+            This route is the migration handoff. It keeps the investor-facing v0 product story, but it now carries users
+            directly into the live Nolan ephemeris workflow while preserving clear source visibility across Nolan’s repo,
+            your fork, and the post-migration codebase.
+          </p>
+        </div>
+
+        <div class="product-grid">
+          <section class="iframe-wrap glass-card">
+            <iframe src="https://ephemeris-nine.vercel.app/" title="Embedded Nolan Ephemeris Product"></iframe>
+          </section>
+
+          <aside class="product-card">
+            <h3>Migration Summary</h3>
+            <p>
+              Everything that matters from the Nolan-based product experience is now accessible from a first-class
+              `PRODUCT` route rather than living as a separate disconnected app.
+            </p>
+
+            <div class="product-link-grid">
+              <a class="product-link" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noopener noreferrer">
+                <strong>Live Nolan Product</strong>
+                <span>Open the original live product directly for the full-screen experience.</span>
+              </a>
+              <a class="product-link" href="https://github.com/Nolan-McKenna/ephemeris" target="_blank" rel="noopener noreferrer">
+                <strong>Nolan's Source Repo</strong>
+                <span>The original ephemeris codebase that powers the live application.</span>
+              </a>
+              <a class="product-link" href="https://github.com/anirvanbordoloi07/ephemeris" target="_blank" rel="noopener noreferrer">
+                <strong>Your Forked Ephemeris Repo</strong>
+                <span>Your fork where the Nolan project is preserved and can continue evolving under your account.</span>
+              </a>
+              <a class="product-link" href="https://github.com/anirvanbordoloi07/Ephemeris_Satellite-Monitoring" target="_blank" rel="noopener noreferrer">
+                <strong>Post-Migration Repo</strong>
+                <span>The new home for this integrated marketing-plus-product bridge after migration.</span>
+              </a>
+            </div>
+
+            <div class="hero-actions">
+              <a class="btn btn-product" data-launch-product href="/product">Re-open Source Tabs</a>
+              <a class="btn btn-secondary" href="/dashboard">View Demo Dashboard</a>
+            </div>
+
+            <div class="login-note">
+              The embed is intentionally framed inside this route so users experience a smoother transition from
+              story to product. If they want the original application directly, the full product link above opens it.
+            </div>
+          </aside>
+        </div>
+      </main>
+
+      <script src="/site.js"></script>
+    </div>
+  </body>
+</html>

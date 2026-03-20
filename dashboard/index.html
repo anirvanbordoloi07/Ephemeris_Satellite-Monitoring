@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ephemeris Mission Control</title>
+    <meta name="description" content="Mission control dashboard for the migrated Ephemeris product experience.">
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <div class="site-shell">
+      <canvas class="stars" aria-hidden="true"></canvas>
+      <div class="dashboard-shell">
+        <aside class="sidebar glass-card">
+          <a class="brand" href="/">
+            <span class="brand-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m13.5 6.5-3.15-3.15a1.2 1.2 0 0 0-1.7 0L6.35 5.65a1.2 1.2 0 0 0 0 1.7L9.5 10.5"></path>
+                <path d="M16.5 7.5 19 5"></path>
+                <path d="m17.5 10.5 3.15 3.15a1.2 1.2 0 0 1 0 1.7l-2.3 2.3a1.2 1.2 0 0 1-1.7 0L13.5 14.5"></path>
+                <path d="M9 21a6 6 0 0 0-6-6"></path>
+                <path d="M9.35 10.65a1.2 1.2 0 0 0 0 1.7l2.3 2.3a1.2 1.2 0 0 0 1.7 0l4.3-4.3a1.2 1.2 0 0 0 0-1.7l-2.3-2.3a1.2 1.2 0 0 0-1.7 0z"></path>
+              </svg>
+            </span>
+            <span class="brand-text" style="font-size: 1.45rem;">Ephemeris</span>
+          </a>
+          <nav>
+            <a class="active" href="/dashboard">Overview</a>
+            <a href="/product">Product</a>
+            <a href="/">Alerts</a>
+            <a href="/">Fleet</a>
+            <a href="/">Analytics</a>
+            <a href="/">Audit Log</a>
+            <a href="/">Settings</a>
+          </nav>
+          <div class="profile">
+            <div class="muted">3 Notifications</div>
+            <strong>Sarah Chen</strong>
+            <div class="muted">Fleet Manager</div>
+          </div>
+        </aside>
+
+        <main class="dashboard-main">
+          <section class="dashboard-card glass-card">
+            <div class="page-hero" style="margin-bottom: 0;">
+              <h1 style="font-size: 2rem;">Mission Control</h1>
+              <p>Fleet-wide collision avoidance intelligence with a direct bridge into the live Nolan ephemeris product. Last updated 10:30 UTC.</p>
+            </div>
+          </section>
+
+          <section class="metrics-grid">
+            <div class="metric-card">
+              <span class="metric-label">Fleet Satellites</span>
+              <span class="metric-value">22/24</span>
+              <span class="metric-label">operational</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Active Conjunctions</span>
+              <span class="metric-value">47</span>
+              <span class="metric-label">being tracked</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Critical Alerts</span>
+              <span class="metric-value">3</span>
+              <span class="metric-label">require action</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Avg Response Time</span>
+              <span class="metric-value">4.2 hrs</span>
+              <span class="metric-label">to acknowledge</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Fuel Budget Used</span>
+              <span class="metric-value">12.4%</span>
+              <span class="metric-label">this quarter</span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">Days Since Critical</span>
+              <span class="metric-value">8</span>
+              <span class="metric-label">last incident</span>
+            </div>
+          </section>
+
+          <section class="dashboard-grid">
+            <div class="dashboard-card glass-card orbital-stage">
+              <div class="panel-header">
+                <div>
+                  <div class="panel-title">Orbital View</div>
+                  <div class="panel-subtitle">Live migration framing</div>
+                </div>
+                <a class="btn btn-product btn-pill" href="/product">Open Product</a>
+              </div>
+              <div class="orbit-preview" style="min-height: 260px;">
+                <div class="earth" aria-hidden="true"></div>
+                <div class="orbit one" aria-hidden="true"></div>
+                <div class="orbit two" aria-hidden="true"></div>
+                <div class="orbit-dot primary" aria-hidden="true"></div>
+                <div class="orbit-dot alert" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <div class="dashboard-card glass-card">
+              <div class="panel-header">
+                <div class="panel-title">Alert Queue</div>
+                <a class="muted" href="/">View all</a>
+              </div>
+              <div class="alert-list">
+                <article class="alert-item">
+                  <div class="alert-pill critical">Critical</div>
+                  <h3>Critical Conjunction: EphSat-3 / IRIDIUM 33 DEB</h3>
+                  <p class="muted">TCA in 7.5 hours. Probability escalated to 6.8e-4. Immediate review required.</p>
+                </article>
+                <article class="alert-item">
+                  <div class="alert-pill critical">Critical</div>
+                  <h3>Maneuver Window Closing: EphSat-1A</h3>
+                  <p class="muted">Decision required within 2 hours for CDM-2026-04821. Miss distance 45m.</p>
+                </article>
+                <article class="alert-item">
+                  <div class="alert-pill high">High</div>
+                  <h3>Rising Risk: EphSat-4A / FENGYUN 1C DEB</h3>
+                  <p class="muted">Probability increased 3x over the last 24 hours. AI score now 78.</p>
+                </article>
+                <article class="alert-item">
+                  <div class="alert-pill medium">Medium</div>
+                  <h3>New CDM Received: EphSat-1B / STARLINK-3214</h3>
+                  <p class="muted">CDM #3 received. Miss distance stable at 580m. Low co-orbital relative velocity.</p>
+                </article>
+              </div>
+            </div>
+          </section>
+
+          <section class="table-card glass-card">
+            <div class="panel-header">
+              <div class="panel-title">Top Conjunction Events</div>
+              <a class="muted" href="/product">View product route</a>
+            </div>
+            <div class="table-scroll">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Event ID</th>
+                    <th>Primary</th>
+                    <th>Secondary</th>
+                    <th>Risk</th>
+                    <th>AI Score</th>
+                    <th>Prob.</th>
+                    <th>Miss Dist.</th>
+                    <th>TCA</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>CDM-2026-04790</td>
+                    <td>EphSat-3</td>
+                    <td>IRIDIUM 33 DEB</td>
+                    <td class="risk-critical">critical</td>
+                    <td>96</td>
+                    <td>6.8e-4</td>
+                    <td>85 m</td>
+                    <td>7h 30m</td>
+                    <td class="status-active">active</td>
+                  </tr>
+                  <tr>
+                    <td>CDM-2026-04821</td>
+                    <td>EphSat-1A</td>
+                    <td>COSMOS 2251 DEB</td>
+                    <td class="risk-critical">critical</td>
+                    <td>94</td>
+                    <td>1.2e-3</td>
+                    <td>45 m</td>
+                    <td>1d 3h</td>
+                    <td class="status-active">active</td>
+                  </tr>
+                  <tr>
+                    <td>CDM-2026-04835</td>
+                    <td>EphSat-2A</td>
+                    <td>SL-16 R/B</td>
+                    <td class="risk-critical">critical</td>
+                    <td>91</td>
+                    <td>4.5e-4</td>
+                    <td>120 m</td>
+                    <td>1d 17h</td>
+                    <td class="status-maneuver">maneuver-planned</td>
+                  </tr>
+                  <tr>
+                    <td>CDM-2026-04842</td>
+                    <td>EphSat-4A</td>
+                    <td>FENGYUN 1C DEB</td>
+                    <td class="risk-high">high</td>
+                    <td>78</td>
+                    <td>8.7e-5</td>
+                    <td>210 m</td>
+                    <td>1d 11h</td>
+                    <td class="status-active">active</td>
+                  </tr>
+                  <tr>
+                    <td>CDM-2026-04850</td>
+                    <td>EphSat-1B</td>
+                    <td>STARLINK-3214</td>
+                    <td class="risk-medium">medium</td>
+                    <td>52</td>
+                    <td>2.1e-5</td>
+                    <td>580 m</td>
+                    <td>2d 22h</td>
+                    <td class="status-monitoring">monitoring</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </main>
+      </div>
+      <script src="/site.js"></script>
+    </div>
+  </body>
+</html>
