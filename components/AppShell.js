@@ -173,7 +173,7 @@ function Header() {
         <div className="topbar-actions">
           <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
           <Link className="btn btn-ghost" href="/login">Sign In</Link>
-          <Link className="btn btn-primary" href="/login">Get Started</Link>
+          <Link className="btn btn-primary" href="/signup">Get Started</Link>
         </div>
       </div>
     </header>
@@ -408,6 +408,82 @@ export function LoginPage() {
           </form>
           <div className="login-note">
             Demo credentials are pre-filled. This preserves the frictionless v0 login concept while routing users toward the integrated product flow.
+          </div>
+        </section>
+      </main>
+    </Layout>
+  );
+}
+
+export function SignUpPage() {
+  return (
+    <Layout
+      title="Get Started — Ephemeris"
+      description="Create your Ephemeris account for satellite collision avoidance intelligence."
+    >
+      <main className="login-wrap">
+        <section className="login-card glass-card">
+          <div className="brand" style={{ justifyContent: "center", marginBottom: 22 }}>
+            <span className="brand-mark" aria-hidden="true"><SatelliteMark /></span>
+          </div>
+          <div className="page-hero" style={{ marginBottom: 22 }}>
+            <h1 style={{ fontSize: "2rem", textAlign: "center" }}>Create your account</h1>
+            <p style={{ textAlign: "center" }}>Satellite collision avoidance intelligence, built for operators.</p>
+          </div>
+          <a
+            className="btn btn-google"
+            href="/dashboard"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              marginBottom: 18,
+              background: "#fff",
+              color: "#1a1a18",
+              border: "1px solid rgba(255,255,255,0.18)",
+              fontWeight: 600,
+              fontSize: "0.97rem",
+              borderRadius: 8,
+              padding: "11px 0",
+              textDecoration: "none",
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.84l6.1-6.1C34.46 3.1 29.5 1 24 1 14.82 1 7.07 6.49 3.63 14.22l7.13 5.54C12.46 13.67 17.77 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.5 24.5c0-1.64-.15-3.22-.42-4.75H24v9h12.7c-.55 2.97-2.2 5.48-4.67 7.17l7.15 5.55C43.16 37.57 46.5 31.5 46.5 24.5z"/>
+              <path fill="#FBBC05" d="M10.76 28.24A14.46 14.46 0 0 1 9.5 24c0-1.48.25-2.91.7-4.24L3.07 14.22A23.44 23.44 0 0 0 .5 24c0 3.77.9 7.34 2.49 10.49l7.77-6.25z"/>
+              <path fill="#34A853" d="M24 47c5.5 0 10.12-1.82 13.49-4.95l-7.15-5.55C28.56 38.18 26.38 39 24 39c-6.23 0-11.54-4.17-13.24-9.76l-7.77 6.25C6.44 43.34 14.56 47 24 47z"/>
+            </svg>
+            Sign up with Google
+          </a>
+          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
+            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.12)" }} />
+            <span style={{ fontSize: "0.8rem", color: "var(--text-muted, #8899aa)", whiteSpace: "nowrap" }}>or sign up with email</span>
+            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.12)" }} />
+          </div>
+          <form action="/dashboard">
+            <div style={{ display: "flex", gap: 10 }}>
+              <div className="field" style={{ flex: 1 }}>
+                <label htmlFor="firstName">First Name</label>
+                <input id="firstName" type="text" placeholder="Sarah" required />
+              </div>
+              <div className="field" style={{ flex: 1 }}>
+                <label htmlFor="lastName">Last Name</label>
+                <input id="lastName" type="text" placeholder="Chen" required />
+              </div>
+            </div>
+            <div className="field">
+              <label htmlFor="signupEmail">Email</label>
+              <input id="signupEmail" type="email" placeholder="you@example.com" required />
+            </div>
+            <button className="btn btn-primary" type="submit" style={{ width: "100%", marginTop: 4 }}>
+              Create Account
+            </button>
+          </form>
+          <div className="login-note" style={{ marginTop: 16 }}>
+            Already have an account?{" "}
+            <Link href="/login" style={{ color: "var(--accent, #38bdf8)", textDecoration: "underline" }}>Sign in</Link>
           </div>
         </section>
       </main>
