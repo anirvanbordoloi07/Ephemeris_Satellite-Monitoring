@@ -369,10 +369,10 @@ export function HomePage() {
             <strong>Ephemeris</strong>
             <div className="muted">Satellite collision avoidance intelligence designed around real operator workflow.</div>
           </div>
-          <div className="hero-actions" style={{ marginTop: 0 }}>
-            <a className="btn btn-ghost" href="/">Privacy</a>
-            <a className="btn btn-ghost" href="/">Terms</a>
-            <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
+          <div style={{ display:"flex", alignItems:"center", gap:24 }}>
+            <a className="footer-link" href="/">Privacy</a>
+            <a className="footer-link" href="/">Terms</a>
+            <a className="btn btn-ghost" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer" style={{ letterSpacing:"0.04em" }}>PRODUCT</a>
           </div>
         </div>
       </footer>

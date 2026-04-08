@@ -55,7 +55,7 @@ button { font: inherit; }
 .hero-centered { display:flex; flex-direction:column; align-items:center; text-align:center; }
 .hero-centered p { max-width:840px; }
 .hero-copy { position:relative; z-index:1; }
-.hero h1 { margin:24px 0 18px; font-size:clamp(3.6rem,8vw,6.3rem); line-height:.95; letter-spacing:-0.05em; }
+.hero h1 { margin:24px 0 18px; font-size:clamp(2.2rem,4.5vw,3.4rem); line-height:1.05; letter-spacing:-0.04em; }
 .hero h1 span { color:var(--primary); }
 .hero p { max-width:760px; color:var(--muted); font-size:1.42rem; line-height:1.65; }
 .hero-actions { display:flex; flex-wrap:wrap; gap:16px; margin-top:34px; }
@@ -158,4 +158,37 @@ th { color:var(--muted); font-weight:600; }
 .field input:focus { outline:2px solid rgba(22,217,242,0.22); border-color:var(--border-strong); }
 .login-note { margin-top:20px; padding:14px 16px; border-radius:16px; background:rgba(4,10,21,0.62); color:var(--muted); border:1px solid rgba(148,163,184,0.1); line-height:1.7; }
 @media (max-width:1024px){ .hero-grid,.product-grid,.dashboard-shell,.dashboard-grid,.comparison-body{grid-template-columns:1fr;} .features-grid,.flow-grid,.hero-stats,.metrics-grid,.operator-grid,.trust-strip{grid-template-columns:repeat(2,minmax(0,1fr));} .topnav{display:none;} .workflow-cta{flex-direction:column; align-items:flex-start;} }
-@media (max-width:720px){ .topbar-inner{min-height:74px;} .brand-text{font-size:1.4rem;} .hero{padding-top:54px;} .hero h1{font-size:clamp(3rem,16vw,4.6rem);} .hero p{font-size:1.06rem;} .features-grid,.flow-grid,.hero-stats,.metrics-grid,.operator-grid,.trust-strip{grid-template-columns:1fr;} .topbar-actions .btn-ghost{display:none;} .topbar-actions .btn-primary{display:none;} .footer-card{flex-direction:column; align-items:flex-start;} }
+@media (max-width:720px){ .topbar-inner{min-height:74px;} .brand-text{font-size:1.4rem;} .hero{padding-top:54px;} .hero h1{font-size:clamp(2rem,10vw,3rem);} .hero p{font-size:1.06rem;} .features-grid,.flow-grid,.hero-stats,.metrics-grid,.operator-grid,.trust-strip{grid-template-columns:1fr;} .topbar-actions .btn-ghost{display:none;} .topbar-actions .btn-primary{display:none;} .footer-card{flex-direction:column; align-items:flex-start;} }
+
+/* ── Design refinements ── */
+
+/* Nav: unify PRODUCT button to match Sign In style */
+.topbar-actions .btn-product { background:transparent; border-color:rgba(148,163,184,0.2); color:var(--muted); box-shadow:none; letter-spacing:0.04em; }
+.topbar-actions .btn-product:hover { color:var(--text); border-color:rgba(148,163,184,0.38); }
+
+/* Hero stats: unified horizontal strip, no individual boxes */
+.hero-stats { margin-top:48px; background:rgba(10,18,33,0.5); border:1px solid var(--border); border-radius:var(--radius); display:flex; padding:0; gap:0; }
+.metric-card { flex:1; background:transparent; border:none; box-shadow:none; border-radius:0; border-right:1px solid var(--border); padding:20px 16px; }
+.metric-card:last-child { border-right:none; }
+
+/* Feature cards: lighter, editorial feel */
+.feature-card { background:rgba(8,15,28,0.3); border-color:rgba(110,231,255,0.07); box-shadow:none; transition:border-color 200ms ease, background 200ms ease; }
+.feature-card:hover { border-color:var(--border); background:rgba(14,23,41,0.55); }
+
+/* Operator cards: reduce visual weight */
+.operator-card { background:rgba(8,15,28,0.3); border-color:rgba(110,231,255,0.07); box-shadow:none; }
+
+/* Flow cards: minimal */
+.flow-card { background:rgba(8,15,28,0.3); border-color:rgba(110,231,255,0.07); box-shadow:none; }
+
+/* Comparison cards: reduce weight */
+.comparison-card { background:rgba(8,14,28,0.35); border-color:rgba(110,231,255,0.07); box-shadow:none; }
+
+/* Trust strip: unified list, no individual boxes */
+.trust-strip { gap:0; margin-top:28px; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; }
+.trust-item { background:transparent; border:none; border-radius:0; box-shadow:none; padding:20px 28px; border-bottom:1px solid var(--border); color:var(--text); line-height:1.72; }
+.trust-item:last-child { border-bottom:none; }
+
+/* Footer: clean text links */
+.footer-link { color:var(--muted); font-size:0.95rem; transition:color 160ms ease; padding:4px 2px; }
+.footer-link:hover { color:var(--text); }
