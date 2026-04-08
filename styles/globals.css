@@ -160,6 +160,79 @@ th { color:var(--muted); font-weight:600; }
 @media (max-width:1024px){ .hero-grid,.product-grid,.dashboard-shell,.dashboard-grid,.comparison-body{grid-template-columns:1fr;} .features-grid,.flow-grid,.hero-stats,.metrics-grid,.operator-grid,.trust-strip{grid-template-columns:repeat(2,minmax(0,1fr));} .topnav{display:none;} .workflow-cta{flex-direction:column; align-items:flex-start;} }
 @media (max-width:720px){ .topbar-inner{min-height:74px;} .brand-text{font-size:1.4rem;} .hero{padding-top:54px;} .hero h1{font-size:clamp(2rem,10vw,3rem);} .hero p{font-size:1.06rem;} .features-grid,.flow-grid,.hero-stats,.metrics-grid,.operator-grid,.trust-strip{grid-template-columns:1fr;} .topbar-actions .btn-ghost{display:none;} .topbar-actions .btn-primary{display:none;} .footer-card{flex-direction:column; align-items:flex-start;} }
 
+/* ── Conjunction Analysis Section ── */
+.conjunction-section { padding-bottom: 80px; }
+.conjunction-frame {
+  position: relative;
+  border-radius: var(--radius);
+  border: 1px solid var(--border-strong);
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.55), 0 0 0 1px rgba(22,217,242,0.08);
+  background: #050b14;
+}
+.conjunction-img {
+  width: 100%;
+  display: block;
+  border-radius: var(--radius);
+  filter: brightness(0.96) saturate(1.05);
+  transition: transform 0.6s ease, filter 0.6s ease;
+}
+.conjunction-frame:hover .conjunction-img { transform: scale(1.015); filter: brightness(1) saturate(1.1); }
+.conjunction-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
+  background: rgba(22,217,242,0.12);
+  border: 1px solid var(--border-strong);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 6px 14px;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+.conjunction-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  gap: 0;
+  background: linear-gradient(to top, rgba(3,7,18,0.92) 0%, rgba(3,7,18,0.6) 60%, transparent 100%);
+  padding: 32px 32px 24px;
+  justify-content: flex-start;
+  gap: 40px;
+}
+.conjunction-stat span {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--primary);
+  font-family: monospace;
+}
+.conjunction-stat small {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+/* ── Scroll reveal animation ── */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(48px) scale(0.98);
+  transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+}
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 /* ── Design refinements ── */
 
 /* Nav: unify PRODUCT button to match Sign In style */

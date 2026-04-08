@@ -152,6 +152,17 @@ function useStars() {
     window.addEventListener("resize", draw);
     return () => window.removeEventListener("resize", draw);
   }, []);
+
+  useEffect(() => {
+    const els = document.querySelectorAll(".reveal-on-scroll");
+    if (!els.length) return;
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("revealed"); observer.unobserve(e.target); } }),
+      { threshold: 0.12 }
+    );
+    els.forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 }
 
 function Header() {
@@ -256,6 +267,29 @@ export function HomePage() {
                 ))}
               </div>
             </aside>
+          </div>
+        </section>
+
+        <section className="section conjunction-section" id="conjunction">
+          <div className="section-heading">
+            <h2>Conjunction Analysis in Action</h2>
+            <p>
+              Real-time orbital propagation with live TCA computation, miss distance scoring, and
+              animated satellite tracks — all rendered on a 3D Cesium globe.
+            </p>
+          </div>
+          <div className="conjunction-frame reveal-on-scroll">
+            <div className="conjunction-badge">LIVE SIMULATION</div>
+            <img
+              src="/conjunction-analyzer.png"
+              alt="Ephemeris conjunction analysis — Cesium globe showing two satellite tracks converging at TCA"
+              className="conjunction-img"
+            />
+            <div className="conjunction-overlay">
+              <div className="conjunction-stat"><span>3,732 km</span><small>Miss Distance at TCA</small></div>
+              <div className="conjunction-stat"><span>T+3.51 hrs</span><small>Time to Close Approach</small></div>
+              <div className="conjunction-stat"><span>NOMINAL</span><small>Risk Level</small></div>
+            </div>
           </div>
         </section>
 
