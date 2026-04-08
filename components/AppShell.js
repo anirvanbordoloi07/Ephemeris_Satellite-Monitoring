@@ -279,7 +279,6 @@ export function HomePage() {
             </p>
           </div>
           <div className="conjunction-frame reveal-on-scroll">
-            <div className="conjunction-badge">LIVE SIMULATION</div>
             <img
               src="/conjunction-analyzer.png"
               alt="Ephemeris conjunction analysis — Cesium globe showing two satellite tracks converging at TCA"
