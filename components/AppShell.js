@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect } from "react";
+import { Brain, Radio, Globe, ClipboardList, Navigation, ExternalLink } from "lucide-react";
 
 const metrics = [
   ["47", "Active Conjunctions Tracked"],
@@ -299,15 +300,15 @@ export function HomePage() {
           </div>
           <div className="features-grid">
             {[
-              ["AI", "AI Alert Prioritization", "Surface the conjunctions most likely to require action first so operators spend time on decisions, not sorting."],
-              ["CDM", "Risk Evolution Tracking", "Show how miss distance, probability, and urgency change across updates to reveal momentum, not just snapshots."],
-              ["OPS", "Fleet-Wide Oversight", "Keep fleet health, response load, maneuver posture, and unresolved events visible in one coherent operating surface."],
-              ["LOG", "Audit-Ready Decisions", "Capture review context, escalation paths, and outcomes in a traceable log that stands up to compliance scrutiny."],
-              ["DV", "Maneuver Framing", "Present timing windows and decision implications in a way that supports fast operator judgment under pressure."],
-              ["INT", "Direct Product Access", "A prominently integrated PRODUCT action takes users straight into the live operational experience."]
-            ].map(([badge, title, body]) => (
+              [Brain, "AI Alert Prioritization", "Surface the conjunctions most likely to require action first so operators spend time on decisions, not sorting."],
+              [Radio, "Risk Evolution Tracking", "Show how miss distance, probability, and urgency change across updates to reveal momentum, not just snapshots."],
+              [Globe, "Fleet-Wide Oversight", "Keep fleet health, response load, maneuver posture, and unresolved events visible in one coherent operating surface."],
+              [ClipboardList, "Audit-Ready Decisions", "Capture review context, escalation paths, and outcomes in a traceable log that stands up to compliance scrutiny."],
+              [Navigation, "Maneuver Framing", "Present timing windows and decision implications in a way that supports fast operator judgment under pressure."],
+              [ExternalLink, "Direct Product Access", "A prominently integrated PRODUCT action takes users straight into the live operational experience."]
+            ].map(([Icon, title, body]) => (
               <article className="feature-card" key={title}>
-                <div className="icon-badge">{badge}</div>
+                <div className="icon-badge"><Icon size={22} strokeWidth={1.8} /></div>
                 <h3>{title}</h3>
                 <p>{body}</p>
               </article>
