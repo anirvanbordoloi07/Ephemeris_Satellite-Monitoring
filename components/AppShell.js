@@ -170,10 +170,7 @@ function Header() {
     <header className="topbar">
       <div className="topbar-inner">
         <Link className="brand" href="/">
-          <span className="brand-mark" aria-hidden="true">
-            <SatelliteMark />
-          </span>
-          <span className="brand-text">Ephemeris</span>
+          <img src="/logo.svg" alt="Ephemeris" style={{ height: 28, width: "auto" }} />
         </Link>
         <nav className="topnav" aria-label="Primary">
           <a href="/#platform">Platform</a>
@@ -421,8 +418,8 @@ export function LoginPage() {
     >
       <main className="login-wrap">
         <section className="login-card glass-card">
-          <div className="brand" style={{ justifyContent: "center", marginBottom: 22 }}>
-            <span className="brand-mark" aria-hidden="true"><SatelliteMark /></span>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 22 }}>
+            <img src="/logo.svg" alt="Ephemeris" style={{ height: 32, width: "auto" }} />
           </div>
           <div className="page-hero" style={{ marginBottom: 22 }}>
             <h1 style={{ fontSize: "2rem", textAlign: "center" }}>Sign in to Ephemeris</h1>
@@ -456,8 +453,8 @@ export function SignUpPage() {
     >
       <main className="login-wrap">
         <section className="login-card glass-card">
-          <div className="brand" style={{ justifyContent: "center", marginBottom: 22 }}>
-            <span className="brand-mark" aria-hidden="true"><SatelliteMark /></span>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 22 }}>
+            <img src="/logo.svg" alt="Ephemeris" style={{ height: 32, width: "auto" }} />
           </div>
           <div className="page-hero" style={{ marginBottom: 22 }}>
             <h1 style={{ fontSize: "2rem", textAlign: "center" }}>Create your account</h1>
@@ -528,8 +525,7 @@ function DashboardSidebar({ activePath }) {
   return (
     <aside className="sidebar glass-card">
       <Link className="brand" href="/dashboard">
-        <span className="brand-mark" aria-hidden="true"><SatelliteMark /></span>
-        <span className="brand-text" style={{ fontSize: "1.45rem" }}>Ephemeris</span>
+        <img src="/logo.svg" alt="Ephemeris" style={{ height: 26, width: "auto" }} />
       </Link>
       <nav>
         {dashboardNav.map(([href, label]) => (
