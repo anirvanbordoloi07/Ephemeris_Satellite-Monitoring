@@ -181,7 +181,7 @@ function Header() {
         <div className="topbar-actions">
           <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
           <Link className="btn btn-ghost" href="/login">Sign In</Link>
-          <Link className="btn btn-primary" href="/signup">Get Started</Link>
+          <Link className="btn btn-ghost" href="/signup">Get Started</Link>
         </div>
       </div>
     </header>
@@ -373,11 +373,13 @@ export function HomePage() {
               <article className="comparison-card" key={title}>
                 <div className="comparison-label">{title}</div>
                 <div className="comparison-body">
-                  <div>
+                  <div className="comparison-col comparison-col-before">
+                    <span className="comparison-indicator comparison-indicator-before">✕</span>
                     <span className="comparison-heading">Without Ephemeris</span>
                     <p>{before}</p>
                   </div>
-                  <div>
+                  <div className="comparison-col comparison-col-after">
+                    <span className="comparison-indicator comparison-indicator-after">✓</span>
                     <span className="comparison-heading accent">With Ephemeris</span>
                     <p>{after}</p>
                   </div>
