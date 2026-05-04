@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect } from "react";
-import { Brain, Radio, Globe, ClipboardList, Navigation, ExternalLink } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Brain, Radio, Globe, ClipboardList, Navigation, ExternalLink, Menu, X } from "lucide-react";
 
 const metrics = [
   ["47", "Active Conjunctions Tracked"],
@@ -167,10 +167,13 @@ function useStars() {
 }
 
 function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const close = () => setMenuOpen(false);
+
   return (
     <header className="topbar">
       <div className="topbar-inner">
-        <Link className="brand" href="/">
+        <Link className="brand" href="/" onClick={close}>
           <img src="/logo.svg" alt="Ephemeris" style={{ height: 28, width: "auto" }} />
         </Link>
         <nav className="topnav" aria-label="Primary">
@@ -181,10 +184,29 @@ function Header() {
         </nav>
         <div className="topbar-actions">
           <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
-          <Link className="btn btn-ghost" href="/login">Sign In</Link>
-          <Link className="btn btn-ghost" href="/signup">Get Started</Link>
+          <Link className="btn btn-ghost btn-desktop-only" href="/login">Sign In</Link>
+          <Link className="btn btn-ghost btn-desktop-only" href="/signup">Get Started</Link>
+          <button
+            className="hamburger"
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
         </div>
       </div>
+      {menuOpen && (
+        <nav className="mobile-nav" aria-label="Mobile navigation">
+          <a href="/#platform" onClick={close}>Platform</a>
+          <a href="/#operator-view" onClick={close}>Operator View</a>
+          <a href="/#workflow" onClick={close}>Workflow</a>
+          <a href="/#trust" onClick={close}>Trust</a>
+          <div className="mobile-nav-divider" />
+          <Link href="/login" onClick={close}>Sign In</Link>
+          <Link href="/signup" onClick={close} className="mobile-nav-cta">Get Started</Link>
+        </nav>
+      )}
     </header>
   );
 }
