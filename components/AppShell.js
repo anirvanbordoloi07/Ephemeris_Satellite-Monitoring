@@ -19,7 +19,7 @@ const signalCards = [
 const operatorPanels = [
   ["Prioritized Queue", "See the events that actually need action first, with risk momentum and maneuverability surfaced immediately."],
   ["Risk Evolution", "Track how probability, miss distance, and urgency shift across updates instead of comparing snapshots manually."],
-  ["Decision Support", "Frame maneuver timing, delta-v implications, and review windows in a format operators can act on quickly."],
+  ["Decision Support", "Frame maneuver timing, fuel cost, and decision windows in a format operators can act on quickly."],
   ["Mission Oversight", "Monitor fleet health, unresolved alerts, and team response posture from a single operating surface."]
 ];
 
@@ -108,7 +108,7 @@ const auditRows = [
 
 const settingsCards = [
   ["Notification policy", "Critical events page on-call immediately. High-risk alerts notify fleet manager and analyst queue."],
-  ["Conjunction scoring", "Current weighting favors time-to-TCA, secondary object type, covariance realism, and maneuverability."],
+  ["Conjunction scoring", "Events are ranked by time to closest approach, object type, tracking accuracy, and available maneuver margin."],
   ["Audit retention", "Decision records retained for 7 years with export-ready summaries and change history."],
   ["Data sources", "Demo environment simulates CDM ingestion, orbit updates, and operator comments across a 24-satellite fleet."]
 ];
@@ -472,10 +472,18 @@ export function LoginPage() {
 }
 
 export function SignUpPage() {
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setSubmitted(true);
+    setTimeout(() => { window.location.href = "https://ephemeris-nine.vercel.app/"; }, 1800);
+  }
+
   return (
     <Layout
-      title="Get Started — Ephemeris"
-      description="Create your Ephemeris account for satellite collision avoidance intelligence."
+      title="Get Early Access — Ephemeris"
+      description="Sign up for early access to Ephemeris satellite collision avoidance intelligence."
     >
       <main className="login-wrap">
         <section className="login-card glass-card">
@@ -483,65 +491,45 @@ export function SignUpPage() {
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 22 }}>
             <img src="/logo.svg" alt="Ephemeris" style={{ height: 32, width: "auto" }} />
           </div>
-          <div className="page-hero" style={{ marginBottom: 22 }}>
-            <h1 style={{ fontSize: "2rem", textAlign: "center" }}>Create your account</h1>
-            <p style={{ textAlign: "center" }}>Satellite collision avoidance intelligence, built for operators.</p>
-          </div>
-          <a
-            className="btn btn-google"
-            href="/dashboard"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: 10,
-              marginBottom: 18,
-              background: "#fff",
-              color: "#1a1a18",
-              border: "1px solid rgba(255,255,255,0.18)",
-              fontWeight: 600,
-              fontSize: "0.97rem",
-              borderRadius: 8,
-              padding: "11px 0",
-              textDecoration: "none",
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#EA4335" d="M24 9.5c3.14 0 5.95 1.08 8.17 2.84l6.1-6.1C34.46 3.1 29.5 1 24 1 14.82 1 7.07 6.49 3.63 14.22l7.13 5.54C12.46 13.67 17.77 9.5 24 9.5z"/>
-              <path fill="#4285F4" d="M46.5 24.5c0-1.64-.15-3.22-.42-4.75H24v9h12.7c-.55 2.97-2.2 5.48-4.67 7.17l7.15 5.55C43.16 37.57 46.5 31.5 46.5 24.5z"/>
-              <path fill="#FBBC05" d="M10.76 28.24A14.46 14.46 0 0 1 9.5 24c0-1.48.25-2.91.7-4.24L3.07 14.22A23.44 23.44 0 0 0 .5 24c0 3.77.9 7.34 2.49 10.49l7.77-6.25z"/>
-              <path fill="#34A853" d="M24 47c5.5 0 10.12-1.82 13.49-4.95l-7.15-5.55C28.56 38.18 26.38 39 24 39c-6.23 0-11.54-4.17-13.24-9.76l-7.77 6.25C6.44 43.34 14.56 47 24 47z"/>
-            </svg>
-            Sign up with Google
-          </a>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 18 }}>
-            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.12)" }} />
-            <span style={{ fontSize: "0.8rem", color: "var(--text-muted, #8899aa)", whiteSpace: "nowrap" }}>or sign up with email</span>
-            <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.12)" }} />
-          </div>
-          <form action="/dashboard">
-            <div style={{ display: "flex", gap: 10 }}>
-              <div className="field" style={{ flex: 1 }}>
-                <label htmlFor="firstName">First Name</label>
-                <input id="firstName" type="text" placeholder="Sarah" required />
-              </div>
-              <div className="field" style={{ flex: 1 }}>
-                <label htmlFor="lastName">Last Name</label>
-                <input id="lastName" type="text" placeholder="Chen" required />
-              </div>
+          {submitted ? (
+            <div style={{ textAlign: "center", padding: "24px 0" }}>
+              <div style={{ fontSize: "2.5rem", marginBottom: 14, color: "var(--primary)" }}>✓</div>
+              <h2 style={{ fontSize: "1.5rem", marginBottom: 10 }}>You&rsquo;re in!</h2>
+              <p style={{ color: "var(--muted)", lineHeight: 1.7 }}>Opening the live product now&hellip;</p>
             </div>
-            <div className="field">
-              <label htmlFor="signupEmail">Email</label>
-              <input id="signupEmail" type="email" placeholder="you@example.com" required />
-            </div>
-            <button className="btn btn-primary" type="submit" style={{ width: "100%", marginTop: 4 }}>
-              Create Account
-            </button>
-          </form>
-          <div className="login-note" style={{ marginTop: 16 }}>
-            Already have an account?{" "}
-            <Link href="/login" style={{ color: "var(--accent, #38bdf8)", textDecoration: "underline" }}>Sign in</Link>
-          </div>
+          ) : (
+            <>
+              <div className="page-hero" style={{ marginBottom: 22 }}>
+                <h1 style={{ fontSize: "2rem", textAlign: "center" }}>Get early access</h1>
+                <p style={{ textAlign: "center", color: "var(--muted)" }}>
+                  Leave your details and we&rsquo;ll take you straight to the live product.
+                </p>
+              </div>
+              <form onSubmit={handleSubmit} style={{ display: "grid", gap: 16 }}>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <div className="field" style={{ flex: 1 }}>
+                    <label htmlFor="firstName">First Name</label>
+                    <input id="firstName" type="text" placeholder="Your name" required />
+                  </div>
+                  <div className="field" style={{ flex: 1 }}>
+                    <label htmlFor="lastName">Last Name</label>
+                    <input id="lastName" type="text" placeholder="Last name" required />
+                  </div>
+                </div>
+                <div className="field">
+                  <label htmlFor="signupEmail">Work Email</label>
+                  <input id="signupEmail" type="email" placeholder="you@company.com" required />
+                </div>
+                <button className="btn btn-primary" type="submit" style={{ width: "100%", marginTop: 4 }}>
+                  Access the Product →
+                </button>
+              </form>
+              <div className="login-note" style={{ marginTop: 16 }}>
+                Already have an account?{" "}
+                <Link href="/login" style={{ color: "var(--accent, #38bdf8)", textDecoration: "underline" }}>Sign in</Link>
+              </div>
+            </>
+          )}
         </section>
       </main>
     </Layout>
@@ -551,7 +539,7 @@ export function SignUpPage() {
 function DashboardSidebar({ activePath }) {
   return (
     <aside className="sidebar glass-card">
-      <Link className="brand" href="/dashboard">
+      <Link className="brand" href="/">
         <img src="/logo.svg" alt="Ephemeris" style={{ height: 26, width: "auto" }} />
       </Link>
       <nav>
@@ -604,7 +592,7 @@ export function DashboardPage() {
           <section className="dashboard-card glass-card">
             <div className="page-hero" style={{ marginBottom: 0 }}>
               <h1 style={{ fontSize: "2rem" }}>Mission Control</h1>
-              <p>Fleet-wide collision avoidance intelligence with a direct bridge into the live Nolan ephemeris product. Last updated 10:30 UTC.</p>
+              <p>Fleet-wide collision risk monitoring across all active satellites. Last updated 10:30 UTC.</p>
             </div>
           </section>
 
@@ -698,13 +686,13 @@ export function AlertsPage() {
     <DashboardFrame
       activePath="/alerts"
       title="Ephemeris Alerts"
-      description="Dummy alert queue for the Ephemeris collision monitoring interface."
+      description="Active alert queue for the Ephemeris collision monitoring interface."
     >
       <>
         <section className="dashboard-card glass-card">
           <div className="page-hero" style={{ marginBottom: 0 }}>
             <h1 style={{ fontSize: "2rem" }}>Alerts</h1>
-            <p>Live-style dummy alert queue with severity-based triage, operator notes, and recommended next actions.</p>
+            <p>Active alert queue with severity triage, operator notes, and recommended next steps.</p>
           </div>
         </section>
 
@@ -728,12 +716,12 @@ export function AlertsPage() {
           <div className="dashboard-card glass-card">
             <div className="panel-header">
               <div className="panel-title">Operator Guidance</div>
-              <span className="muted">Dummy workflow</span>
+              <span className="muted">Recommended steps</span>
             </div>
             <div className="features-grid single-column-grid">
               {[
                 ["Triage", "Confirm event ownership and review the top two critical conjunctions within the next 30 minutes."],
-                ["Coordinate", "Share maneuver assumptions with flight dynamics and mark any object covariance concerns."],
+                ["Coordinate", "Share maneuver plans with flight dynamics and flag any tracking data concerns."],
                 ["Decide", "Document whether the event remains monitoring-only, requires escalation, or is entering maneuver review."]
               ].map(([title, body]) => (
                 <article className="feature-card" key={title}>
@@ -764,7 +752,7 @@ export function AlertsPage() {
               <tbody>
                 {[
                   ["CDM-2026-04790", "Critical", "Sarah Chen", "Maneuver review opened", "7 min ago"],
-                  ["CDM-2026-04821", "Critical", "Marcus Hill", "Waiting on covariance check", "12 min ago"],
+                  ["CDM-2026-04821", "Critical", "Marcus Hill", "Waiting on tracking data review", "12 min ago"],
                   ["CDM-2026-04842", "High", "Alicia Gomez", "Escalated after probability rise", "39 min ago"],
                   ["CDM-2026-04850", "Medium", "Autoprioritizer", "Remains monitor-only", "1h ago"]
                 ].map((row) => (
@@ -784,7 +772,7 @@ export function FleetPage() {
     <DashboardFrame
       activePath="/fleet"
       title="Ephemeris Fleet"
-      description="Dummy fleet status view for the Ephemeris dashboard."
+      description="Fleet status overview for the Ephemeris dashboard."
     >
       <>
         <section className="dashboard-card glass-card">
@@ -799,7 +787,7 @@ export function FleetPage() {
             ["24", "Tracked Spacecraft", "across 4 mission groups"],
             ["5", "Satellites Under Watch", "open conjunction attention"],
             ["1", "Planned Maneuver", "within 24 hours"],
-            ["92%", "Fleet Availability", "based on dummy uptime"],
+            ["92%", "Fleet Availability", "across active satellites"],
             ["18.6 kg", "Median Fuel Reserve", "remaining across fleet"],
             ["3", "High-Priority Owners", "currently assigned"]
           ].map(([value, label, detail]) => (
@@ -814,7 +802,7 @@ export function FleetPage() {
         <section className="table-card glass-card">
           <div className="panel-header">
             <div className="panel-title">Fleet Status Board</div>
-            <span className="muted">Dummy operational data</span>
+            <span className="muted">Sample constellation data</span>
           </div>
           <div className="table-scroll">
             <table>
@@ -846,13 +834,13 @@ export function AnalyticsPage() {
     <DashboardFrame
       activePath="/analytics"
       title="Ephemeris Analytics"
-      description="Dummy analytics view for the Ephemeris dashboard."
+      description="Performance analytics for the Ephemeris dashboard."
     >
       <>
         <section className="dashboard-card glass-card">
           <div className="page-hero" style={{ marginBottom: 0 }}>
             <h1 style={{ fontSize: "2rem" }}>Analytics</h1>
-            <p>Dummy performance analytics showing how prioritization improves review speed, escalations, and mission response quality.</p>
+            <p>Performance metrics showing how smarter prioritization reduces review time, closes high-risk events faster, and improves team response.</p>
           </div>
         </section>
 
@@ -869,7 +857,7 @@ export function AnalyticsPage() {
         <section className="table-card glass-card">
           <div className="panel-header">
             <div className="panel-title">Operational Efficiency</div>
-            <span className="muted">Dummy month-to-date trend</span>
+            <span className="muted">Month-to-date</span>
           </div>
           <div className="table-scroll">
             <table>
@@ -899,13 +887,13 @@ export function AuditLogPage() {
     <DashboardFrame
       activePath="/audit-log"
       title="Ephemeris Audit Log"
-      description="Dummy audit log for the Ephemeris dashboard."
+      description="Decision audit log for the Ephemeris dashboard."
     >
       <>
         <section className="dashboard-card glass-card">
           <div className="page-hero" style={{ marginBottom: 0 }}>
             <h1 style={{ fontSize: "2rem" }}>Audit Log</h1>
-            <p>Traceable dummy records for operator actions, system updates, and queue changes across the mission-control workflow.</p>
+            <p>Complete record of operator actions, system updates, and decisions across the mission workflow — ready for compliance review.</p>
           </div>
         </section>
 
@@ -943,13 +931,13 @@ export function SettingsPage() {
     <DashboardFrame
       activePath="/settings"
       title="Ephemeris Settings"
-      description="Dummy settings view for the Ephemeris dashboard."
+      description="Configuration settings for the Ephemeris dashboard."
     >
       <>
         <section className="dashboard-card glass-card">
           <div className="page-hero" style={{ marginBottom: 0 }}>
             <h1 style={{ fontSize: "2rem" }}>Settings</h1>
-            <p>Dummy configuration panels for notifications, scoring logic, data sources, and audit retention policy.</p>
+            <p>Configuration for notifications, event scoring, data sources, and audit retention — all in one place.</p>
           </div>
         </section>
 
