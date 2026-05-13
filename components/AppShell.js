@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Brain, Radio, Globe, ClipboardList, Navigation, ExternalLink, Menu, X, ChevronLeft } from "lucide-react";
+import { Brain, Radio, Globe, ClipboardList, Navigation, ExternalLink, Menu, X, ChevronLeft, Mail, Linkedin, Send } from "lucide-react";
 
 const metrics = [
   ["47", "Active Conjunctions Tracked"],
@@ -181,10 +181,11 @@ function Header() {
           <a href="/#operator-view">Operator View</a>
           <a href="/#workflow">Workflow</a>
           <a href="/#trust">Trust</a>
+          <Link href="/contact">Contact</Link>
         </nav>
         <div className="topbar-actions">
           <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
-          <Link className="btn btn-ghost btn-desktop-only" href="/login">Sign In</Link>
+          <Link className="btn btn-ghost btn-desktop-only" href="/contact">CONTACT US</Link>
           <Link className="btn btn-ghost btn-desktop-only" href="/signup">Get Started</Link>
           <button
             className="hamburger"
@@ -203,7 +204,7 @@ function Header() {
           <a href="/#workflow" onClick={close}>Workflow</a>
           <a href="/#trust" onClick={close}>Trust</a>
           <div className="mobile-nav-divider" />
-          <Link href="/login" onClick={close}>Sign In</Link>
+          <Link href="/contact" onClick={close}>Contact Us</Link>
           <Link href="/signup" onClick={close} className="mobile-nav-cta">Get Started</Link>
         </nav>
       )}
@@ -952,5 +953,107 @@ export function SettingsPage() {
         </section>
       </>
     </DashboardFrame>
+  );
+}
+
+export function ContactPage() {
+  const [submitted, setSubmitted] = useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const data = new FormData(e.target);
+    const name = data.get("name");
+    const email = data.get("email");
+    const message = data.get("message");
+    setSubmitted(true);
+    const subject = encodeURIComponent(`Message from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
+    setTimeout(() => {
+      window.location.href = `mailto:EphemerisTech@gmail.com?subject=${subject}&body=${body}`;
+    }, 400);
+  }
+
+  return (
+    <Layout
+      title="Contact — Ephemeris"
+      description="Get in touch with the Ephemeris team. Questions, partnerships, or early access requests."
+    >
+      <main>
+        <section className="section contact-section">
+          <div className="contact-hero">
+            <div className="eyebrow">Get in touch</div>
+            <h1 className="contact-heading">Contact Us</h1>
+            <p className="contact-subheading">
+              Have a question, want to explore a partnership, or need early access? We&rsquo;d love to hear from you.
+            </p>
+          </div>
+
+          <div className="contact-grid">
+            <aside className="contact-info glass-card">
+              <h2>Reach us directly</h2>
+              <a className="contact-link-item" href="mailto:EphemerisTech@gmail.com">
+                <span className="contact-link-icon"><Mail size={18} strokeWidth={1.8} /></span>
+                <span>EphemerisTech@gmail.com</span>
+              </a>
+              <a
+                className="contact-link-item"
+                href="https://www.linkedin.com/company/ephemeristech/posts/?feedView=all"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span className="contact-link-icon"><Linkedin size={18} strokeWidth={1.8} /></span>
+                <span>Ephemeris on LinkedIn</span>
+              </a>
+              <div className="contact-note">
+                We typically respond within one business day.
+              </div>
+            </aside>
+
+            <div className="contact-form-card glass-card">
+              {submitted ? (
+                <div className="contact-success">
+                  <div className="contact-success-icon"><Send size={28} strokeWidth={1.6} /></div>
+                  <h3>Message sent!</h3>
+                  <p>Your email client is opening with the pre-filled message. We&rsquo;ll get back to you soon.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="contact-form">
+                  <div className="field">
+                    <label htmlFor="c-name">Name <span className="required-mark">*</span></label>
+                    <input id="c-name" name="name" type="text" placeholder="Your full name" required />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="c-email">Email <span className="required-mark">*</span></label>
+                    <input id="c-email" name="email" type="email" placeholder="you@company.com" required />
+                  </div>
+                  <div className="field">
+                    <label htmlFor="c-message">Message <span className="required-mark">*</span></label>
+                    <textarea id="c-message" name="message" placeholder="Tell us about your mission, use case, or question..." rows={5} required />
+                  </div>
+                  <button className="btn btn-primary contact-submit" type="submit">
+                    <Send size={16} strokeWidth={2} />
+                    Submit
+                  </button>
+                </form>
+              )}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <div className="page-wrap footer-card glass-card">
+          <div>
+            <strong>Ephemeris</strong>
+            <div className="muted">Satellite collision avoidance intelligence designed around real operator workflow.</div>
+          </div>
+          <div style={{ display:"flex", alignItems:"center", gap:24 }}>
+            <a className="footer-link" href="/">Home</a>
+            <a className="footer-link" href="/contact">Contact</a>
+            <a className="btn btn-ghost" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer" style={{ letterSpacing:"0.04em" }}>PRODUCT</a>
+          </div>
+        </div>
+      </footer>
+    </Layout>
   );
 }
