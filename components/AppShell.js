@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Brain, Radio, Globe, ClipboardList, Navigation, ExternalLink, Menu, X } from "lucide-react";
+import { Brain, Radio, Globe, ClipboardList, Navigation, ExternalLink, Menu, X, ChevronLeft } from "lucide-react";
 
 const metrics = [
   ["47", "Active Conjunctions Tracked"],
@@ -443,6 +443,7 @@ export function LoginPage() {
     >
       <main className="login-wrap">
         <section className="login-card glass-card">
+          <Link href="/" className="auth-back-link"><ChevronLeft size={16} strokeWidth={2.2} />Back to Home</Link>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 22 }}>
             <img src="/logo.svg" alt="Ephemeris" style={{ height: 32, width: "auto" }} />
           </div>
@@ -478,6 +479,7 @@ export function SignUpPage() {
     >
       <main className="login-wrap">
         <section className="login-card glass-card">
+          <Link href="/" className="auth-back-link"><ChevronLeft size={16} strokeWidth={2.2} />Back to Home</Link>
           <div style={{ display: "flex", justifyContent: "center", marginBottom: 22 }}>
             <img src="/logo.svg" alt="Ephemeris" style={{ height: 32, width: "auto" }} />
           </div>
@@ -567,11 +569,25 @@ function DashboardSidebar({ activePath }) {
 }
 
 function DashboardFrame({ activePath, title, description, children }) {
+  const isOverview = activePath === "/dashboard";
+  const backHref = isOverview ? "/" : "/dashboard";
+  const backLabel = isOverview ? "Home" : "Overview";
+  const pageTitle = title.replace("Ephemeris ", "").replace(" — Ephemeris", "");
+
   return (
     <Layout title={title} description={description} showHeader={false}>
       <div className="dashboard-shell">
         <DashboardSidebar activePath={activePath} />
-        <main className="dashboard-main">{children}</main>
+        <main className="dashboard-main">
+          <div className="mobile-page-header">
+            <Link href={backHref} className="mobile-back-btn">
+              <ChevronLeft size={18} strokeWidth={2.2} />
+              {backLabel}
+            </Link>
+            <span className="mobile-page-title">{pageTitle}</span>
+          </div>
+          {children}
+        </main>
       </div>
     </Layout>
   );

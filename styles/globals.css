@@ -191,6 +191,15 @@ th { color:var(--muted); font-weight:600; }
   .table-scroll { -webkit-overflow-scrolling:touch; }
 }
 
+/* ── Mobile back navigation ── */
+.mobile-page-header { display:none; align-items:center; justify-content:space-between; gap:12px; padding:14px 0 6px; border-bottom:1px solid var(--border); margin-bottom:18px; }
+.mobile-back-btn { display:inline-flex; align-items:center; gap:4px; color:var(--primary); font-size:0.9rem; font-weight:600; padding:6px 2px; min-height:40px; }
+.mobile-back-btn:hover { opacity:0.8; }
+.mobile-page-title { color:var(--muted); font-size:0.85rem; font-weight:500; }
+.auth-back-link { display:inline-flex; align-items:center; gap:4px; color:var(--muted); font-size:0.88rem; font-weight:500; margin-bottom:20px; padding:4px 2px; transition:color 160ms ease; }
+.auth-back-link:hover { color:var(--text); }
+@media (max-width:1024px) { .mobile-page-header { display:flex; } }
+
 /* ── Conjunction Analysis Section ── */
 .conjunction-section { padding-bottom: 80px; }
 .conjunction-frame {
