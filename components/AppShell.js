@@ -1,7 +1,92 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Brain, Radio, Globe, ClipboardList, Navigation, ExternalLink, Menu, X, ChevronLeft, Mail, Send } from "lucide-react";
+import { Menu, X, ChevronLeft, Mail, Send } from "lucide-react";
+
+function BrandMark(props) {
+  return (
+    <svg viewBox="0 0 110 95" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M2 64.12L60.4638 60.6675C67.4189 60.2568 73.3087 55.3925 75.0266 48.6403L78.2843 35.8357L82.0071 49.2562C83.5082 54.6677 87.7365 58.8961 93.148 60.3972L106.569 64.12L93.148 67.8428C87.7365 69.3439 83.5082 73.5723 82.0071 78.9838L78.2843 92.4043L75.0266 79.5997C73.3087 72.8475 67.4189 67.9832 60.4638 67.5725L2 64.12Z" />
+    </svg>
+  );
+}
+
+/* Domain-derived marks for the capability grid — orbit arcs, TCA brackets,
+   gauges — rather than generic icon-library glyphs. */
+function FleetMark(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
+      <ellipse cx="12" cy="12" rx="10" ry="4.2" />
+      <circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none" />
+      <circle cx="20.3" cy="10.1" r="1.4" fill="currentColor" stroke="none" />
+      <circle cx="4.2" cy="14.6" r="1.4" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+function PriorityMark(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" {...props}>
+      <path d="M4 6h16" />
+      <path d="M4 12h11" />
+      <path d="M4 18h6" />
+      <path d="M18 15l3 3-3 3" />
+    </svg>
+  );
+}
+function TrendMark(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M3 4v16h18" />
+      <path d="M6.5 15.5l4-4.5 3 3 5.5-7" />
+    </svg>
+  );
+}
+function VectorMark(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M4 18L18 4" />
+      <path d="M18 4h-6" />
+      <path d="M18 4v6" />
+      <circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+function LedgerMark(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" {...props}>
+      <rect x="4" y="3" width="16" height="18" rx="1.5" />
+      <path d="M7.5 8h9M7.5 12h9" />
+      <path d="M7.5 16.5l2 2 4-4.5" />
+    </svg>
+  );
+}
+function BridgeMark(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M3 8v8" />
+      <path d="M21 8v8" />
+      <path d="M7 12h7" />
+      <path d="M11.5 8.5L15 12l-3.5 3.5" />
+    </svg>
+  );
+}
+
+function useTcaCountdown(initialSeconds) {
+  const [seconds, setSeconds] = useState(initialSeconds);
+  useEffect(() => {
+    const id = setInterval(() => setSeconds((s) => (s > 0 ? s - 1 : 0)), 1000);
+    return () => clearInterval(id);
+  }, []);
+  const h = String(Math.floor(seconds / 3600)).padStart(2, "0");
+  const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, "0");
+  const s = String(seconds % 60).padStart(2, "0");
+  return `${h}:${m}:${s}`;
+}
+
+function TcaClock({ initialSeconds }) {
+  const formatted = useTcaCountdown(initialSeconds);
+  return <span suppressHydrationWarning>{formatted}</span>;
+}
 
 function LinkedinIcon() {
   return (
@@ -13,17 +98,59 @@ function LinkedinIcon() {
   );
 }
 
-const metrics = [
-  ["47", "Active Conjunctions Tracked"],
-  ["24", "Fleet Satellites"],
-  ["4.2h", "Avg Response Time"],
-  ["87%", "Alert Noise Reduced"]
+const heroStat = ["87%", "Alert noise reduced"];
+const supportStats = [
+  ["47", "Active conjunctions"],
+  ["24", "Fleet satellites"],
+  ["4.2h", "Avg response time"]
 ];
 
-const signalCards = [
-  ["Live TCA Window", "7h 30m", "Critical event EphSat-3 vs IRIDIUM 33 debris is already triaged with maneuver review in progress."],
-  ["Decision Confidence", "94%", "Operator-facing recommendations surface why an event is urgent instead of just exposing raw CDM volume."],
-  ["Audit Completeness", "100%", "Every action, escalation, and rationale is preserved in a mission-ready decision trail."]
+const readoutQueue = [
+  ["EphSat-1A", "COSMOS 2251 DEB", "caution", "1d 03h"],
+  ["EphSat-2A", "SL-16 R/B", "nominal", "1d 17h"]
+];
+
+const capabilityGroups = [
+  {
+    label: "Input",
+    cols: 1,
+    items: [
+      [FleetMark, "Fleet-Wide Oversight", "Keep fleet health, response load, maneuver posture, and unresolved events visible in one operating surface."]
+    ]
+  },
+  {
+    label: "Process",
+    cols: 3,
+    items: [
+      [PriorityMark, "AI Alert Prioritization", "Surface the conjunctions most likely to require action first so operators spend time on decisions, not sorting."],
+      [TrendMark, "Risk Evolution Tracking", "Show how miss distance, probability, and urgency change across updates to reveal momentum, not just snapshots."],
+      [VectorMark, "Maneuver Framing", "Present timing windows and decision implications in a way that supports fast operator judgment under pressure."]
+    ]
+  },
+  {
+    label: "Output",
+    cols: 2,
+    items: [
+      [LedgerMark, "Audit-Ready Decisions", "Capture review context, escalation paths, and outcomes in a log that stands up to compliance scrutiny."],
+      [BridgeMark, "Direct Product Access", "One click from this page into the live product — no separate sign-up flow."]
+    ]
+  }
+];
+
+const rawFeedRows = [
+  ["CDM-2026-04850", "STARLINK-3214", "recv 02:14"],
+  ["CDM-2026-04790", "IRIDIUM 33 DEB", "recv 03:41"],
+  ["CDM-2026-04835", "SL-16 R/B", "recv 04:02"],
+  ["CDM-2026-04821", "COSMOS 2251 DEB", "recv 04:55"],
+  ["CDM-2026-04842", "FENGYUN 1C DEB", "recv 05:30"]
+];
+
+const triagedQueueRows = [
+  ["EphSat-3 / IRIDIUM 33 DEB", "critical", "TCA 7h 30m"],
+  ["EphSat-1A / COSMOS 2251 DEB", "critical", "TCA 1d 03h"],
+  ["EphSat-2A / SL-16 R/B", "caution", "TCA 1d 17h"],
+  ["EphSat-4A / FENGYUN 1C DEB", "caution", "TCA 1d 11h"],
+  ["EphSat-1B / STARLINK-3214", "nominal", "TCA 2d 22h"]
 ];
 
 const operatorPanels = [
@@ -38,19 +165,6 @@ const workflowSteps = [
   ["02", "Score real mission risk", "Rank events using escalation likelihood, object characteristics, time-to-TCA, and decision urgency rather than raw probability alone."],
   ["03", "Focus the operator queue", "Push the most consequential conjunctions to the top while lower-signal events remain visible without overwhelming the team."],
   ["04", "Decide with traceability", "Move from review to action with complete context, documented rationale, and compliance-ready recordkeeping."]
-];
-
-const comparisonRows = [
-  ["Raw CDM monitoring", "Operators manually sort high-volume alerts with limited decision context.", "Ephemeris surfaces a prioritized queue with urgency, timing, and rationale."],
-  ["Snapshot-only tools", "Teams compare updates by hand and infer escalation from scattered data points.", "Risk evolution is visible directly in the workflow with trend-aware framing."],
-  ["Fragmented operations", "Alert review, maneuver planning, and audit logging live in separate tools.", "Analysis, action, and traceability live in one integrated mission-control surface."]
-];
-
-const trustPoints = [
-  "Mission-control visual layer built for operators, not generic dashboards.",
-  "Structured decision workflows with audit-ready logging and review context.",
-  "Clear separation between active threats, monitor-only events, and planned maneuvers.",
-  "Direct bridge into the live product through the homepage PRODUCT action."
 ];
 
 const dashboardMetrics = [
@@ -182,9 +296,15 @@ function Header() {
 
   return (
     <header className="topbar">
+      <div className="legend-strip" aria-hidden="true">
+        <span className="legend-item"><span className="legend-dot critical"></span>Critical</span>
+        <span className="legend-item"><span className="legend-dot caution"></span>Monitor</span>
+        <span className="legend-item"><span className="legend-dot nominal"></span>Nominal</span>
+      </div>
       <div className="topbar-inner">
-        <Link className="brand" href="/" onClick={close}>
-          <img src="/logo.svg" alt="Ephemeris" style={{ height: 28, width: "auto" }} />
+        <Link className="brand brand-wordmark" href="/" onClick={close}>
+          <BrandMark style={{ width: 22, height: 19 }} />
+          <span className="brand-text">Ephemeris</span>
         </Link>
         <nav className="topnav" aria-label="Primary">
           <a href="/#platform">Platform</a>
@@ -253,9 +373,8 @@ export function HomePage() {
               <div className="eyebrow">Real-time conjunction intelligence</div>
               <h1>Decision Intelligence for <span>Satellite Safety</span></h1>
               <p>
-                Ephemeris turns raw conjunction data into a focused operator workflow. Review the
-                highest-risk events first, understand how risk is evolving, and move from alert to
-                action with clear audit trails and product-grade mission context.
+                Ephemeris turns raw conjunction data into a focused operator workflow: review the
+                highest-risk events first, see how risk is changing, and act with a clear audit trail.
               </p>
               <div className="hero-actions">
                 <Link className="btn btn-primary" href="/dashboard">Launch Dashboard</Link>
@@ -263,37 +382,51 @@ export function HomePage() {
                 <a className="btn btn-secondary" href="#workflow">See Workflow</a>
               </div>
               <div className="hero-note">Built for satellite operators, mission teams, and collision-risk review workflows.</div>
-              <div className="hero-stats">
-                {metrics.map(([value, label]) => (
-                  <div className="metric-card" key={label}>
-                    <span className="metric-value">{value}</span>
-                    <span className="metric-label">{label}</span>
-                  </div>
-                ))}
+              <div className="stat-row">
+                <div className="stat-hero">
+                  <span className="stat-hero-value">{heroStat[0]}</span>
+                  <span className="stat-hero-label">{heroStat[1]}</span>
+                </div>
+                <div className="stat-support-list">
+                  {supportStats.map(([value, label]) => (
+                    <div className="stat-support" key={label}>
+                      <span className="stat-support-value">{value}</span>
+                      <span className="stat-support-label">{label}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 
-            <aside className="hero-panel glass-card">
-              <div className="panel-header">
+            <aside className="readout-card">
+              <div className="readout-head">
                 <div>
-                  <div className="panel-title">Live Operator Snapshot</div>
-                  <div className="panel-subtitle">What the team sees when a conjunction starts to escalate</div>
+                  <div className="readout-head-label">Live conjunction readout</div>
+                  <div className="readout-head-event">EphSat-3 / IRIDIUM 33 DEB</div>
                 </div>
-                <div className="alert-pill critical">Critical</div>
+                <span className="risk-badge critical">Critical</span>
               </div>
-              <div className="orbit-preview">
-                <div className="earth" aria-hidden="true"></div>
-                <div className="orbit one" aria-hidden="true"></div>
-                <div className="orbit two" aria-hidden="true"></div>
-                <div className="orbit-dot primary" aria-hidden="true"></div>
-                <div className="orbit-dot alert" aria-hidden="true"></div>
+              <div className="readout-rows">
+                <div className="readout-row">
+                  <span className="readout-row-label">Time to closest approach</span>
+                  <span className="readout-value countdown"><TcaClock initialSeconds={27000} /></span>
+                </div>
+                <div className="readout-row">
+                  <span className="readout-row-label">Miss distance</span>
+                  <span className="readout-value">85 m</span>
+                </div>
+                <div className="readout-row">
+                  <span className="readout-row-label">Collision probability</span>
+                  <span className="readout-value">6.8e-4</span>
+                </div>
               </div>
-              <div className="panel-grid">
-                {signalCards.map(([label, value, body]) => (
-                  <div className="mini-card" key={label}>
-                    <span className="metric-label">{label}</span>
-                    <strong>{value}</strong>
-                    <span className="muted">{body}</span>
+              <div className="readout-queue">
+                <div className="readout-queue-label">Next in queue</div>
+                {readoutQueue.map(([sat, target, tier, tca]) => (
+                  <div className="queue-row" key={sat}>
+                    <span className="queue-row-id">{sat} / {target}</span>
+                    <span className={`risk-badge ${tier}`}>{tier}</span>
+                    <span className="queue-row-tca">{tca}</span>
                   </div>
                 ))}
               </div>
@@ -331,20 +464,22 @@ export function HomePage() {
               to feel like a working control surface, not a generic SaaS dashboard.
             </p>
           </div>
-          <div className="features-grid">
-            {[
-              [Brain, "AI Alert Prioritization", "Surface the conjunctions most likely to require action first so operators spend time on decisions, not sorting."],
-              [Radio, "Risk Evolution Tracking", "Show how miss distance, probability, and urgency change across updates to reveal momentum, not just snapshots."],
-              [Globe, "Fleet-Wide Oversight", "Keep fleet health, response load, maneuver posture, and unresolved events visible in one coherent operating surface."],
-              [ClipboardList, "Audit-Ready Decisions", "Capture review context, escalation paths, and outcomes in a traceable log that stands up to compliance scrutiny."],
-              [Navigation, "Maneuver Framing", "Present timing windows and decision implications in a way that supports fast operator judgment under pressure."],
-              [ExternalLink, "Direct Product Access", "A prominently integrated PRODUCT action takes users straight into the live operational experience."]
-            ].map(([Icon, title, body]) => (
-              <article className="feature-card" key={title}>
-                <div className="icon-badge"><Icon size={22} strokeWidth={1.8} /></div>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </article>
+          <div className="capability-groups">
+            {capabilityGroups.map((group) => (
+              <div key={group.label}>
+                <div className="capability-group-label">{group.label}</div>
+                <div className={`capability-grid cols-${group.cols}`}>
+                  {group.items.map(([Mark, title, body]) => (
+                    <article className="capability-card" key={title}>
+                      <Mark className="capability-mark" />
+                      <div>
+                        <h3>{title}</h3>
+                        <p>{body}</p>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </section>
@@ -376,13 +511,13 @@ export function HomePage() {
               product and no dead-end pages.
             </p>
           </div>
-          <div className="flow-grid">
+          <div className="pipeline-rail reveal-on-scroll">
             {workflowSteps.map(([step, title, body]) => (
-              <article className="flow-card" key={step}>
-                <div className="step-badge">{step}</div>
+              <div className="pipeline-step" key={step}>
+                <div className="pipeline-index">{step}</div>
                 <h3>{title}</h3>
                 <p>{body}</p>
-              </article>
+              </div>
             ))}
           </div>
           <div className="workflow-cta glass-card">
@@ -398,51 +533,77 @@ export function HomePage() {
           <div className="section-heading">
             <h2>Why This Interface Works Better</h2>
             <p>
-              The product story is sharper when we show the operational difference clearly:
-              fewer manual comparisons, less alert noise, and better decision visibility.
+              Same conjunction data, two views: the feed as it arrives, and the queue after
+              Ephemeris scores and orders it.
             </p>
           </div>
-          <div className="comparison-grid">
-            {comparisonRows.map(([title, before, after]) => (
-              <article className="comparison-card" key={title}>
-                <div className="comparison-label">{title}</div>
-                <div className="comparison-body">
-                  <div className="comparison-col comparison-col-before">
-                    <span className="comparison-indicator comparison-indicator-before">✕</span>
-                    <span className="comparison-heading">Without Ephemeris</span>
-                    <p>{before}</p>
-                  </div>
-                  <div className="comparison-col comparison-col-after">
-                    <span className="comparison-indicator comparison-indicator-after">✓</span>
-                    <span className="comparison-heading accent">With Ephemeris</span>
-                    <p>{after}</p>
-                  </div>
+          <div className="contrast-grid reveal-on-scroll">
+            <div className="contrast-panel raw">
+              <div className="contrast-panel-head">Raw feed — arrival order</div>
+              {rawFeedRows.map(([id, target, recv]) => (
+                <div className="contrast-row" key={id}>
+                  <span>{id} / {target}</span>
+                  <span>{recv}</span>
                 </div>
-              </article>
-            ))}
-          </div>
-          <div className="trust-strip">
-            {trustPoints.map((point) => (
-              <div className="trust-item" key={point}>{point}</div>
-            ))}
+              ))}
+              <div className="contrast-note">Five CDMs, no ranking. An operator has to read every row to find what matters.</div>
+            </div>
+            <div className="contrast-panel triaged">
+              <div className="contrast-panel-head">Triaged queue — by risk</div>
+              {triagedQueueRows.map(([label, tier, tca]) => (
+                <div className="contrast-row" key={label}>
+                  <span>{label}</span>
+                  <span className={`risk-badge ${tier}`}>{tier}</span>
+                  <span>{tca}</span>
+                </div>
+              ))}
+              <div className="contrast-note">Same five events, ranked by urgency with time-to-TCA attached. Critical events are unmissable.</div>
+            </div>
           </div>
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="page-wrap footer-card glass-card">
+      <SiteFooter />
+    </Layout>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <div className="page-wrap">
+        <div className="footer-top">
           <div>
-            <strong>Ephemeris</strong>
-            <div className="muted">Satellite collision avoidance intelligence designed around real operator workflow.</div>
+            <Link className="brand brand-wordmark" href="/">
+              <BrandMark style={{ width: 20, height: 17 }} />
+              <span className="brand-text" style={{ fontSize: "1.2rem" }}>Ephemeris</span>
+            </Link>
+            <p className="footer-brand-blurb">Satellite collision avoidance intelligence, built around how operators actually review and act on conjunction risk.</p>
           </div>
-          <div style={{ display:"flex", alignItems:"center", gap:24 }}>
-            <a className="footer-link" href="/">Privacy</a>
-            <a className="footer-link" href="/">Terms</a>
-            <a className="btn btn-ghost" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer" style={{ letterSpacing:"0.04em" }}>PRODUCT</a>
+          <div>
+            <div className="footer-col-label">Site</div>
+            <div className="footer-col-links">
+              <a className="footer-link" href="/#platform">Platform</a>
+              <a className="footer-link" href="/#operator-view">Operator View</a>
+              <a className="footer-link" href="/#workflow">Workflow</a>
+              <a className="footer-link" href="/#trust">Trust</a>
+            </div>
+          </div>
+          <div>
+            <div className="footer-col-label">Contact</div>
+            <div className="footer-col-links">
+              <a className="footer-link" href="mailto:EphemerisTech@gmail.com">EphemerisTech@gmail.com</a>
+              <Link className="footer-link" href="/contact">Contact form</Link>
+              <a className="footer-link" href="https://www.linkedin.com/company/ephemeristech/posts/?feedView=all" target="_blank" rel="noreferrer">LinkedIn</a>
+            </div>
           </div>
         </div>
-      </footer>
-    </Layout>
+        <div className="footer-bottom">
+          <span>Ephemeris</span>
+          <a className="btn btn-ghost" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer" style={{ letterSpacing: "0.04em" }}>PRODUCT</a>
+        </div>
+      </div>
+    </footer>
   );
 }
 
@@ -1051,19 +1212,7 @@ export function ContactPage() {
         </section>
       </main>
 
-      <footer className="footer">
-        <div className="page-wrap footer-card glass-card">
-          <div>
-            <strong>Ephemeris</strong>
-            <div className="muted">Satellite collision avoidance intelligence designed around real operator workflow.</div>
-          </div>
-          <div style={{ display:"flex", alignItems:"center", gap:24 }}>
-            <a className="footer-link" href="/">Home</a>
-            <a className="footer-link" href="/contact">Contact</a>
-            <a className="btn btn-ghost" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer" style={{ letterSpacing:"0.04em" }}>PRODUCT</a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </Layout>
   );
 }
