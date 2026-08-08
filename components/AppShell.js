@@ -1,75 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import NextImage from "next/image";
+import { useEffect, useState, useRef } from "react";
 import { Menu, X, ChevronLeft, Mail, Send } from "lucide-react";
-
-function BrandMark(props) {
-  return (
-    <svg viewBox="0 0 110 95" fill="currentColor" aria-hidden="true" {...props}>
-      <path d="M2 64.12L60.4638 60.6675C67.4189 60.2568 73.3087 55.3925 75.0266 48.6403L78.2843 35.8357L82.0071 49.2562C83.5082 54.6677 87.7365 58.8961 93.148 60.3972L106.569 64.12L93.148 67.8428C87.7365 69.3439 83.5082 73.5723 82.0071 78.9838L78.2843 92.4043L75.0266 79.5997C73.3087 72.8475 67.4189 67.9832 60.4638 67.5725L2 64.12Z" />
-    </svg>
-  );
-}
-
-/* Domain-derived marks for the capability grid — orbit arcs, TCA brackets,
-   gauges — rather than generic icon-library glyphs. */
-function FleetMark(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" {...props}>
-      <ellipse cx="12" cy="12" rx="10" ry="4.2" />
-      <circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none" />
-      <circle cx="20.3" cy="10.1" r="1.4" fill="currentColor" stroke="none" />
-      <circle cx="4.2" cy="14.6" r="1.4" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-function PriorityMark(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" {...props}>
-      <path d="M4 6h16" />
-      <path d="M4 12h11" />
-      <path d="M4 18h6" />
-      <path d="M18 15l3 3-3 3" />
-    </svg>
-  );
-}
-function TrendMark(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M3 4v16h18" />
-      <path d="M6.5 15.5l4-4.5 3 3 5.5-7" />
-    </svg>
-  );
-}
-function VectorMark(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M4 18L18 4" />
-      <path d="M18 4h-6" />
-      <path d="M18 4v6" />
-      <circle cx="4" cy="18" r="1.6" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-function LedgerMark(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" {...props}>
-      <rect x="4" y="3" width="16" height="18" rx="1.5" />
-      <path d="M7.5 8h9M7.5 12h9" />
-      <path d="M7.5 16.5l2 2 4-4.5" />
-    </svg>
-  );
-}
-function BridgeMark(props) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M3 8v8" />
-      <path d="M21 8v8" />
-      <path d="M7 12h7" />
-      <path d="M11.5 8.5L15 12l-3.5 3.5" />
-    </svg>
-  );
-}
 
 function useTcaCountdown(initialSeconds) {
   const [seconds, setSeconds] = useState(initialSeconds);
@@ -97,68 +30,6 @@ function LinkedinIcon() {
     </svg>
   );
 }
-
-const heroStat = ["87%", "Alert noise reduced"];
-const supportStats = [
-  ["47", "Active conjunctions"],
-  ["24", "Fleet satellites"],
-  ["4.2h", "Avg response time"]
-];
-
-const readoutQueue = [
-  ["EphSat-1A", "COSMOS 2251 DEB", "caution", "1d 03h"],
-  ["EphSat-2A", "SL-16 R/B", "nominal", "1d 17h"]
-];
-
-const capabilityGroups = [
-  {
-    label: "Input",
-    cols: 1,
-    items: [
-      [FleetMark, "Fleet-Wide Oversight", "Keep fleet health, response load, maneuver posture, and unresolved events visible in one operating surface."]
-    ]
-  },
-  {
-    label: "Process",
-    cols: 3,
-    items: [
-      [PriorityMark, "AI Alert Prioritization", "Surface the conjunctions most likely to require action first so operators spend time on decisions, not sorting."],
-      [TrendMark, "Risk Evolution Tracking", "Show how miss distance, probability, and urgency change across updates to reveal momentum, not just snapshots."],
-      [VectorMark, "Maneuver Framing", "Present timing windows and decision implications in a way that supports fast operator judgment under pressure."]
-    ]
-  },
-  {
-    label: "Output",
-    cols: 2,
-    items: [
-      [LedgerMark, "Audit-Ready Decisions", "Capture review context, escalation paths, and outcomes in a log that stands up to compliance scrutiny."],
-      [BridgeMark, "Direct Product Access", "One click from this page into the live product — no separate sign-up flow."]
-    ]
-  }
-];
-
-const rawFeedRows = [
-  ["CDM-2026-04850", "STARLINK-3214", "recv 02:14"],
-  ["CDM-2026-04790", "IRIDIUM 33 DEB", "recv 03:41"],
-  ["CDM-2026-04835", "SL-16 R/B", "recv 04:02"],
-  ["CDM-2026-04821", "COSMOS 2251 DEB", "recv 04:55"],
-  ["CDM-2026-04842", "FENGYUN 1C DEB", "recv 05:30"]
-];
-
-const triagedQueueRows = [
-  ["EphSat-3 / IRIDIUM 33 DEB", "critical", "TCA 7h 30m"],
-  ["EphSat-1A / COSMOS 2251 DEB", "critical", "TCA 1d 03h"],
-  ["EphSat-2A / SL-16 R/B", "caution", "TCA 1d 17h"],
-  ["EphSat-4A / FENGYUN 1C DEB", "caution", "TCA 1d 11h"],
-  ["EphSat-1B / STARLINK-3214", "nominal", "TCA 2d 22h"]
-];
-
-const operatorPanels = [
-  ["Prioritized Queue", "See the events that actually need action first, with risk momentum and maneuverability surfaced immediately."],
-  ["Risk Evolution", "Track how probability, miss distance, and urgency shift across updates instead of comparing snapshots manually."],
-  ["Decision Support", "Frame maneuver timing, fuel cost, and decision windows in a format operators can act on quickly."],
-  ["Mission Oversight", "Monitor fleet health, unresolved alerts, and team response posture from a single operating surface."]
-];
 
 const workflowSteps = [
   ["01", "Ingest operational data", "Bring in conjunction messages, orbit updates, and fleet context so every event starts from normalized operational data."],
@@ -302,9 +173,8 @@ function Header() {
         <span className="legend-item"><span className="legend-dot nominal"></span>Nominal</span>
       </div>
       <div className="topbar-inner">
-        <Link className="brand brand-wordmark" href="/" onClick={close}>
-          <BrandMark style={{ width: 22, height: 19 }} />
-          <span className="brand-text">Ephemeris</span>
+        <Link className="brand" href="/" onClick={close}>
+          <img src="/logo.svg" alt="Ephemeris" style={{ height: 28, width: "auto" }} />
         </Link>
         <nav className="topnav" aria-label="Primary">
           <a href="/#platform">Platform</a>
@@ -360,223 +230,238 @@ export function Layout({ title, description, children, showHeader = true }) {
   );
 }
 
-export function HomePage() {
+const PRODUCT_URL = "https://ephemeris-nine.vercel.app/";
+
+function OrbitalMotif({ className = "", stretch = false }) {
   return (
-    <Layout
-      title="Ephemeris - Satellite Collision Avoidance Intelligence"
-      description="Decision intelligence for satellite safety with a polished mission-control experience and direct access to the live product."
+    <svg
+      className={`hp-motif ${className}`}
+      viewBox="0 0 800 800"
+      preserveAspectRatio={stretch ? "none" : "xMidYMid slice"}
+      aria-hidden="true"
     >
-      <main>
-        <section className="hero">
-          <div className="section hero-grid">
-            <div className="hero-copy">
-              <div className="eyebrow">Real-time conjunction intelligence</div>
-              <h1>Decision Intelligence for <span>Satellite Safety</span></h1>
-              <p>
-                Ephemeris turns raw conjunction data into a focused operator workflow: review the
-                highest-risk events first, see how risk is changing, and act with a clear audit trail.
-              </p>
-              <div className="hero-actions">
-                <Link className="btn btn-primary" href="/dashboard">Launch Dashboard</Link>
-                <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
-                <a className="btn btn-secondary" href="#workflow">See Workflow</a>
-              </div>
-              <div className="hero-note">Built for satellite operators, mission teams, and collision-risk review workflows.</div>
-              <div className="stat-row">
-                <div className="stat-hero">
-                  <span className="stat-hero-value">{heroStat[0]}</span>
-                  <span className="stat-hero-label">{heroStat[1]}</span>
-                </div>
-                <div className="stat-support-list">
-                  {supportStats.map(([value, label]) => (
-                    <div className="stat-support" key={label}>
-                      <span className="stat-support-value">{value}</span>
-                      <span className="stat-support-label">{label}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <aside className="readout-card">
-              <div className="readout-head">
-                <div>
-                  <div className="readout-head-label">Live conjunction readout</div>
-                  <div className="readout-head-event">EphSat-3 / IRIDIUM 33 DEB</div>
-                </div>
-                <span className="risk-badge critical">Critical</span>
-              </div>
-              <div className="readout-rows">
-                <div className="readout-row">
-                  <span className="readout-row-label">Time to closest approach</span>
-                  <span className="readout-value countdown"><TcaClock initialSeconds={27000} /></span>
-                </div>
-                <div className="readout-row">
-                  <span className="readout-row-label">Miss distance</span>
-                  <span className="readout-value">85 m</span>
-                </div>
-                <div className="readout-row">
-                  <span className="readout-row-label">Collision probability</span>
-                  <span className="readout-value">6.8e-4</span>
-                </div>
-              </div>
-              <div className="readout-queue">
-                <div className="readout-queue-label">Next in queue</div>
-                {readoutQueue.map(([sat, target, tier, tca]) => (
-                  <div className="queue-row" key={sat}>
-                    <span className="queue-row-id">{sat} / {target}</span>
-                    <span className={`risk-badge ${tier}`}>{tier}</span>
-                    <span className="queue-row-tca">{tca}</span>
-                  </div>
-                ))}
-              </div>
-            </aside>
-          </div>
-        </section>
-
-        <section className="section conjunction-section" id="conjunction">
-          <div className="section-heading">
-            <h2>Conjunction Analysis in Action</h2>
-            <p>
-              Real-time orbital propagation with live TCA computation, miss distance scoring, and
-              animated satellite tracks — all rendered on a 3D Cesium globe.
-            </p>
-          </div>
-          <div className="conjunction-frame reveal-on-scroll">
-            <img
-              src="/conjunction-analyzer.png"
-              alt="Ephemeris conjunction analysis — Cesium globe showing two satellite tracks converging at TCA"
-              className="conjunction-img"
-            />
-            <div className="conjunction-overlay">
-              <div className="conjunction-stat"><span>3,732 km</span><small>Miss Distance at TCA</small></div>
-              <div className="conjunction-stat"><span>T+3.51 hrs</span><small>Time to Close Approach</small></div>
-              <div className="conjunction-stat"><span>NOMINAL</span><small>Risk Level</small></div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section" id="platform">
-          <div className="section-heading">
-            <h2>The Analysis-to-Action Layer</h2>
-            <p>
-              Ephemeris sits between raw orbital data and mission decisions. The interface is designed
-              to feel like a working control surface, not a generic SaaS dashboard.
-            </p>
-          </div>
-          <div className="capability-groups">
-            {capabilityGroups.map((group) => (
-              <div key={group.label}>
-                <div className="capability-group-label">{group.label}</div>
-                <div className={`capability-grid cols-${group.cols}`}>
-                  {group.items.map(([Mark, title, body]) => (
-                    <article className="capability-card" key={title}>
-                      <Mark className="capability-mark" />
-                      <div>
-                        <h3>{title}</h3>
-                        <p>{body}</p>
-                      </div>
-                    </article>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        <section className="section" id="operator-view">
-          <div className="section-heading">
-            <h2>What Operators See</h2>
-            <p>
-              The homepage now previews the actual working posture of the product: a triaged queue,
-              risk-aware views, decision framing, and fleet-wide oversight.
-            </p>
-          </div>
-          <div className="operator-grid">
-            {operatorPanels.map(([title, body]) => (
-              <article className="operator-card" key={title}>
-                <div className="operator-line" aria-hidden="true"></div>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section className="section" id="workflow">
-          <div className="section-heading">
-            <h2>From Raw Data to Confident Decisions</h2>
-            <p>
-              A cleaner, guided workflow from ingestion to action, with a clear path into the live
-              product and no dead-end pages.
-            </p>
-          </div>
-          <div className="pipeline-rail reveal-on-scroll">
-            {workflowSteps.map(([step, title, body]) => (
-              <div className="pipeline-step" key={step}>
-                <div className="pipeline-index">{step}</div>
-                <h3>{title}</h3>
-                <p>{body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="workflow-cta glass-card">
-            <div>
-              <strong>Ready to open the live product?</strong>
-              <div className="muted">Jump directly into the operational Ephemeris experience from the homepage.</div>
-            </div>
-            <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">Open PRODUCT</a>
-          </div>
-        </section>
-
-        <section className="section" id="trust">
-          <div className="section-heading">
-            <h2>Why This Interface Works Better</h2>
-            <p>
-              Same conjunction data, two views: the feed as it arrives, and the queue after
-              Ephemeris scores and orders it.
-            </p>
-          </div>
-          <div className="contrast-grid reveal-on-scroll">
-            <div className="contrast-panel raw">
-              <div className="contrast-panel-head">Raw feed — arrival order</div>
-              {rawFeedRows.map(([id, target, recv]) => (
-                <div className="contrast-row" key={id}>
-                  <span>{id} / {target}</span>
-                  <span>{recv}</span>
-                </div>
-              ))}
-              <div className="contrast-note">Five CDMs, no ranking. An operator has to read every row to find what matters.</div>
-            </div>
-            <div className="contrast-panel triaged">
-              <div className="contrast-panel-head">Triaged queue — by risk</div>
-              {triagedQueueRows.map(([label, tier, tca]) => (
-                <div className="contrast-row" key={label}>
-                  <span>{label}</span>
-                  <span className={`risk-badge ${tier}`}>{tier}</span>
-                  <span>{tca}</span>
-                </div>
-              ))}
-              <div className="contrast-note">Same five events, ranked by urgency with time-to-TCA attached. Critical events are unmissable.</div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <SiteFooter />
-    </Layout>
+      <g stroke="currentColor" fill="none">
+        <ellipse cx="400" cy="400" rx="380" ry="150" strokeWidth="1" opacity="0.09" />
+        <ellipse cx="400" cy="400" rx="380" ry="80" strokeWidth="1" opacity="0.07" />
+        <ellipse cx="400" cy="400" rx="150" ry="380" strokeWidth="1" opacity="0.06" />
+        <line x1="400" y1="20" x2="400" y2="780" strokeWidth="1" opacity="0.07" />
+        <line x1="20" y1="400" x2="780" y2="400" strokeWidth="1" opacity="0.07" />
+        <ellipse cx="400" cy="400" rx="365" ry="145" strokeWidth="1.4" opacity="0.26" transform="rotate(-24 400 400)" />
+        <ellipse cx="400" cy="400" rx="300" ry="105" strokeWidth="1.1" opacity="0.18" transform="rotate(16 400 400)" />
+        <circle cx="400" cy="400" r="3" fill="currentColor" opacity="0.4" />
+      </g>
+    </svg>
   );
 }
 
-function SiteFooter() {
+function useCountUp(target, format, duration = 1000) {
+  const ref = useRef(null);
+  const formatRef = useRef(format);
+  formatRef.current = format;
+  const [value, setValue] = useState(() => format(0));
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || typeof window === "undefined") return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let started = false;
+    let cancelled = false;
+    const animate = () => {
+      if (started) return;
+      started = true;
+      if (reduce) { setValue(formatRef.current(target)); return; }
+      const start = performance.now();
+      const tick = (now) => {
+        if (cancelled) return;
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        setValue(formatRef.current(target * eased));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { animate(); io.disconnect(); } });
+    }, { threshold: 0.5 });
+    io.observe(el);
+    return () => { cancelled = true; io.disconnect(); };
+  }, [target, duration]);
+  return [ref, value];
+}
+
+function HeroTelemetry() {
+  const [missRef, missVal] = useCountUp(3732, (v) => Math.round(v).toLocaleString());
+  const [pcRef, pcVal] = useCountUp(1.4, (v) => v.toFixed(1));
+  return (
+    <div className="hp-telemetry" ref={missRef}>
+      <span>TCA <TcaClock initialSeconds={27072} /></span>
+      <span className="hp-telemetry-sep" aria-hidden="true">·</span>
+      <span>MISS {missVal} km</span>
+      <span className="hp-telemetry-sep" aria-hidden="true">·</span>
+      <span ref={pcRef}>Pc {pcVal}e-4</span>
+      <span className="hp-telemetry-sep" aria-hidden="true">·</span>
+      <span className="hp-telemetry-status">STATUS NOMINAL</span>
+    </div>
+  );
+}
+
+function HomeNav() {
+  const [open, setOpen] = useState(false);
+  const close = () => setOpen(false);
+  return (
+    <header className="hp-nav">
+      <div className="hp-nav-inner">
+        <Link href="/" className="hp-nav-brand" onClick={close}>
+          <img src="/logo.svg" alt="Ephemeris" style={{ height: 26, width: "auto" }} />
+        </Link>
+        <nav className="hp-nav-links" aria-label="Primary">
+          <a href="#platform">Platform</a>
+          <a href="#workflow">Workflow</a>
+          <a href="#trust">Trust</a>
+        </nav>
+        <div className="hp-nav-actions">
+          <Link href="/contact" className="hp-nav-contact">Contact</Link>
+          <Link href="/signup" className="hp-btn hp-btn-primary hp-btn-sm">Sign up</Link>
+          <button className="hp-nav-toggle" onClick={() => setOpen((o) => !o)} aria-label="Toggle menu" aria-expanded={open}>
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+      </div>
+      {open && (
+        <nav className="hp-nav-mobile" aria-label="Mobile">
+          <a href="#platform" onClick={close}>Platform</a>
+          <a href="#workflow" onClick={close}>Workflow</a>
+          <a href="#trust" onClick={close}>Trust</a>
+          <Link href="/contact" onClick={close}>Contact</Link>
+          <Link href="/signup" onClick={close} className="hp-nav-mobile-cta">Sign up</Link>
+        </nav>
+      )}
+    </header>
+  );
+}
+
+function HomeClosingFooter() {
+  return (
+    <footer className="hp-closing">
+      <OrbitalMotif className="hp-motif-footer" />
+      <div className="hp-container hp-closing-inner reveal-on-scroll">
+        <h2>Bring your fleet&rsquo;s conjunction data into one queue.</h2>
+        <a className="hp-btn hp-btn-primary" href={PRODUCT_URL} target="_blank" rel="noreferrer">Launch dashboard</a>
+      </div>
+      <div className="hp-container hp-footer-legal">
+        <Link href="/" className="hp-footer-brand">
+          <img src="/logo.svg" alt="Ephemeris" style={{ height: 20, width: "auto" }} />
+        </Link>
+        <nav className="hp-footer-links" aria-label="Legal">
+          <Link href="/contact">Contact</Link>
+        </nav>
+        <div className="hp-footer-copy">© Ephemeris. All rights reserved.</div>
+      </div>
+    </footer>
+  );
+}
+
+export function HomePage() {
+  useStars();
+  return (
+    <>
+      <Head>
+        <title>Ephemeris — Decision intelligence for satellite collision avoidance</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="description"
+          content="Ephemeris scores real mission risk from raw conjunction data messages and gives satellite operators one prioritized, audit-ready decision queue."
+        />
+        <link rel="canonical" href="https://www.ephemeristech.com/" />
+        <meta property="og:title" content="Ephemeris — Decision intelligence for satellite collision avoidance" />
+        <meta property="og:description" content="Score real mission risk from raw CDMs and act from one prioritized, audit-ready queue." />
+        <meta property="og:image" content="https://www.ephemeristech.com/og-image.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.ephemeristech.com/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Ephemeris — Decision intelligence for satellite collision avoidance" />
+        <meta name="twitter:description" content="Score real mission risk from raw CDMs and act from one prioritized, audit-ready queue." />
+        <meta name="twitter:image" content="https://www.ephemeristech.com/og-image.png" />
+      </Head>
+      <a href="#hp-main" className="hp-skip-link">Skip to content</a>
+      <div className="hp-shell site-shell">
+        <canvas className="stars" aria-hidden="true"></canvas>
+        <HomeNav />
+        <main id="hp-main">
+          <section className="hp-hero">
+            <OrbitalMotif className="hp-motif-hero" />
+            <div className="hp-container hp-hero-inner reveal-on-scroll">
+              <HeroTelemetry />
+              <h1>Turn the CDM flood into a ranked decision queue.</h1>
+              <p>Ephemeris ingests every conjunction data message, scores real mission risk, and gives operators one prioritized queue with a compliance-ready decision trail.</p>
+              <div className="hp-hero-actions">
+                <a className="hp-btn hp-btn-primary" href={PRODUCT_URL} target="_blank" rel="noreferrer">Launch dashboard</a>
+                <a className="hp-btn hp-btn-outline" href="#workflow">See how it works</a>
+              </div>
+            </div>
+          </section>
+
+          <section className="hp-tension hp-container reveal-on-scroll">
+            <h2>Operators don&rsquo;t have a data problem. They have a triage problem.</h2>
+            <p>A single fleet can receive hundreds of CDMs a week, and almost all of them are noise. The cost isn&rsquo;t reading the data — it&rsquo;s finding the handful of events that need a maneuver decision before the window closes.</p>
+          </section>
+
+          <section className="hp-viz" id="platform">
+            <div className="hp-viz-frame reveal-on-scroll">
+              <NextImage
+                src="/conjunction-globe.png"
+                alt="Ephemeris conjunction analyzer showing a Cesium globe with the VANGUARD 1 satellite track and a time-of-closest-approach marker over North Africa"
+                fill
+                sizes="(max-width: 1180px) 100vw, 1180px"
+                className="hp-viz-img"
+                priority={false}
+              />
+            </div>
+            <div className="hp-viz-caption">sample fleet · illustrative</div>
+          </section>
+
+          <section className="hp-workflow hp-container reveal-on-scroll" id="workflow">
+            <h2>How Ephemeris gets from data to decision</h2>
+            <div className="hp-workflow-rail">
+              {workflowSteps.map(([step, title, body]) => (
+                <div className="hp-workflow-step" key={step}>
+                  <div className="hp-workflow-index">{step}</div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <div className="hp-divider" aria-hidden="true">
+            <OrbitalMotif className="hp-motif-divider" stretch />
+          </div>
+
+          <section className="hp-credibility hp-container reveal-on-scroll" id="trust">
+            <h2>Built for the data operators already trust</h2>
+            <p>
+              Ephemeris ingests conjunction data messages from Space-Track and the 18th Space Defense
+              Squadron, screened against SGP4/SP propagation rather than a single daily batch. Scoring
+              weighs time-to-TCA, miss-distance trend, and object characteristics instead of raw
+              probability alone. We&rsquo;re currently working with a small number of design-partner
+              operators to validate that scoring against real maneuver decisions.
+            </p>
+          </section>
+        </main>
+
+        <HomeClosingFooter />
+      </div>
+    </>
+  );
+}
+
+export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="page-wrap">
         <div className="footer-top">
           <div>
-            <Link className="brand brand-wordmark" href="/">
-              <BrandMark style={{ width: 20, height: 17 }} />
-              <span className="brand-text" style={{ fontSize: "1.2rem" }}>Ephemeris</span>
+            <Link className="brand" href="/">
+              <img src="/logo.svg" alt="Ephemeris" style={{ height: 24, width: "auto" }} />
             </Link>
             <p className="footer-brand-blurb">Satellite collision avoidance intelligence, built around how operators actually review and act on conjunction risk.</p>
           </div>
