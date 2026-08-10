@@ -14,10 +14,9 @@ export default function PrivacyPage() {
           </div>
           <div style={{ maxWidth: 720, color: "var(--muted)", lineHeight: 1.8, display: "grid", gap: 20 }}>
             <p>
-              Ephemeris is currently in design-partner testing. This page will be replaced with a
-              full privacy policy covering what data we collect from operators and their fleets,
-              how conjunction data messages and account information are stored, who we share data
-              with, and how to request deletion, before the product opens beyond design partners.
+              Ephemeris is currently in design-partner testing.<br />
+              A full privacy policy is coming before the product opens more broadly.<br />
+              It will cover what data we collect, how it&rsquo;s stored, who we share it with, and how to request deletion.
             </p>
             <p>
               Until then, treat any data shared with Ephemeris as covered by your individual

@@ -14,10 +14,8 @@ export default function TermsPage() {
           </div>
           <div style={{ maxWidth: 720, color: "var(--muted)", lineHeight: 1.8, display: "grid", gap: 20 }}>
             <p>
-              Ephemeris is currently working with a small number of design-partner operators under
-              individual agreements. This page will be replaced with full terms of service covering
-              acceptable use, service availability, and liability before the product is offered more
-              broadly.
+              Ephemeris works with a small group of design-partner operators today.<br />
+              Full terms of service, covering acceptable use, availability, and liability, are coming before wider release.
             </p>
             <p>
               Until then, use of Ephemeris is governed by your individual design-partner agreement.

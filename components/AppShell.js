@@ -33,10 +33,10 @@ function LinkedinIcon() {
 
 const workflowSteps = [
   ["01", "SENSE", "Continuously understand the operational environment.", "Ingest CDMs, ephemerides, orbit updates, spacecraft state, maneuverability, mission constraints, and trusted SSA sources."],
-  ["02", "PRIORITIZE", "Know which situations require action.", "AI evaluates evolving conjunctions and predicts which events are most likely to escalate into maneuver decisions."],
-  ["03", "DECIDE", "Evaluate maneuver options in mission context.", "Surface the operational tradeoffs behind each decision, including timing, collision risk, fuel, mission constraints, and downstream consequences."],
-  ["04", "MANEUVER", "Move from recommendation to operator-approved action.", "Give operators a clear path from alert to maneuver plan while maintaining human approval and full traceability."],
-  ["05", "LEARN", "Improve with every operational decision.", "Capture operator actions and outcomes so Ephemeris learns fleet preferences, operational constraints, and maneuver behavior over time."]
+  ["02", "PRIORITIZE", "Know which situations require action.", "AI ranks conjunctions by how likely they are to need a maneuver."],
+  ["03", "DECIDE", "Evaluate maneuver options in mission context.", "Weigh timing, collision risk, fuel, mission constraints, and downstream consequences for each decision."],
+  ["04", "MANEUVER", "Move from recommendation to operator-approved action.", "Move from alert to maneuver plan with operator approval, logged and traceable."],
+  ["05", "LEARN", "Improve with every operational decision.", "Ephemeris learns fleet preferences, constraints, and maneuver behavior from every decision."]
 ];
 
 const aiCapabilities = [
@@ -47,7 +47,7 @@ const aiCapabilities = [
 ];
 
 const osCharacteristics = [
-  ["Unified state", "One continuously updated view of conjunctions, spacecraft state, mission constraints, and planned maneuvers."],
+  ["Unified state", "One updated view of conjunctions, spacecraft state, mission constraints, and maneuvers."],
   ["Decision engine", "AI identifies situations requiring action and evaluates available responses."],
   ["Workflow orchestration", "Move decisions across analysts, mission leads, approvals, coordination, and execution."],
   ["Operational memory", "Every decision and outcome becomes part of the fleet's institutional knowledge."]
@@ -62,7 +62,7 @@ const useCases = [
 
 const humanControlPoints = [
   ["Explainability", "Every recommendation shows the reasoning and data behind it."],
-  ["Approvals", "Nothing executes without an operator signing off."],
+  ["Approvals", "Nothing executes without operator approval."],
   ["Audit trail", "Every recommendation and decision is logged and traceable."],
   ["Operational memory", "Past decisions shape future recommendations."]
 ];
@@ -476,17 +476,17 @@ export function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
           name="description"
-          content="Ephemeris helps satellite operators prioritize conjunctions, evaluate maneuver options, and make faster, explainable maneuver decisions across growing fleets."
+          content="Ephemeris turns conjunction alerts into ranked, explainable maneuver decisions for growing fleets."
         />
         <link rel="canonical" href="https://www.ephemeristech.com/" />
         <meta property="og:title" content="Ephemeris | AI Operating System for Satellite Maneuvering" />
-        <meta property="og:description" content="Ephemeris helps satellite operators prioritize conjunctions, evaluate maneuver options, and make faster, explainable maneuver decisions across growing fleets." />
+        <meta property="og:description" content="Ephemeris turns conjunction alerts into ranked, explainable maneuver decisions for growing fleets." />
         <meta property="og:image" content="https://www.ephemeristech.com/og-image.png" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.ephemeristech.com/" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="Ephemeris | AI Operating System for Satellite Maneuvering" />
-        <meta name="twitter:description" content="Ephemeris helps satellite operators prioritize conjunctions, evaluate maneuver options, and make faster, explainable maneuver decisions across growing fleets." />
+        <meta name="twitter:description" content="Ephemeris turns conjunction alerts into ranked, explainable maneuver decisions for growing fleets." />
         <meta name="twitter:image" content="https://www.ephemeristech.com/og-image.png" />
       </Head>
       <a href="#hp-main" className="hp-skip-link">Skip to content</a>
@@ -500,7 +500,7 @@ export function HomePage() {
               <div className="hp-hero-inner reveal-on-scroll">
                 <HeroTelemetry />
                 <h1>The AI operating system for satellite maneuvering.</h1>
-                <p>Ephemeris turns conjunction alerts and mission constraints into prioritized, explainable maneuver decisions, helping satellite operators act faster, operate larger fleets, and keep humans in control.</p>
+                <p>Ephemeris turns conjunction alerts into ranked, explainable maneuver decisions, keeping humans in control.</p>
                 <div className="hp-hero-actions">
                   <Link className="hp-btn hp-btn-primary" href="/contact">Book a Demo</Link>
                   <a className="hp-btn hp-btn-outline" href="#platform">See the Platform</a>
@@ -514,7 +514,7 @@ export function HomePage() {
 
           <section className="hp-tension hp-container reveal-on-scroll">
             <h2>Satellite operators have more data than ever. The bottleneck is deciding when and how to move.</h2>
-            <p>Conjunction alerts arrive continuously. Risk evolves as new observations come in. Mission constraints change what maneuvers are possible. Operators must determine what requires action, when to act, and which maneuver best protects the mission. Ephemeris brings that decision process into one intelligent operating layer.</p>
+            <p>Conjunction alerts arrive continuously, and risk shifts as new data comes in. Mission constraints limit which maneuvers work. Operators must decide what needs action, when, and how, in one decision layer.</p>
           </section>
 
           <section className="hp-ai hp-container reveal-on-scroll">
@@ -550,7 +550,11 @@ export function HomePage() {
               <h2>Built on the systems you already trust.</h2>
             </div>
             <ArchitectureStack />
-            <p className="hp-arch-note">We don&rsquo;t replace your SSA provider or your mission control system. Ephemeris sits between them, acting as the intelligence and orchestration layer for every maneuver decision. Conjunction data is ingested from Space-Track and the 18th Space Defense Squadron and screened against SGP4/SP propagation.</p>
+            <p className="hp-arch-note">
+              Ephemeris doesn&rsquo;t replace your SSA provider or mission control. It&rsquo;s the decision layer between them.<br />
+              Conjunction data comes from Space-Track and the 18th Space Defense Squadron.<br />
+              Screened against SGP4/SP propagation.
+            </p>
             <div className="hp-os-grid">
               {osCharacteristics.map(([title, body]) => (
                 <div className="hp-os-item" key={title}>
@@ -569,7 +573,7 @@ export function HomePage() {
               <div className="hp-usecase-lead-visual">
                 <NextImage
                   src="/conjunction-globe.png"
-                  alt="Ephemeris conjunction analyzer showing a Cesium globe with the VANGUARD 1 satellite track and a time-of-closest-approach marker over North Africa"
+                  alt="Cesium globe showing the VANGUARD 1 satellite track and a time-of-closest-approach marker over North Africa"
                   fill
                   sizes="(max-width: 900px) 100vw, 640px"
                   className="hp-usecase-lead-img"
@@ -599,7 +603,7 @@ export function HomePage() {
           <section className="hp-humancontrol hp-container reveal-on-scroll">
             <div className="hp-section-heading">
               <h2>AI-powered. Operator-controlled.</h2>
-              <p>Ephemeris explains why an event requires attention, what changed, what maneuver options exist, and which tradeoffs informed each recommendation. Operators approve the decision. Ephemeris handles the complexity.</p>
+              <p>Ephemeris explains why an event matters, what changed, and which tradeoffs shaped the recommendation. Operators approve the decision. Ephemeris handles the complexity.</p>
             </div>
             <div className="hp-humancontrol-grid">
               {humanControlPoints.map(([title, body]) => (
@@ -614,18 +618,15 @@ export function HomePage() {
           <section className="hp-credibility hp-container reveal-on-scroll" id="trust">
             <h2>Data you can verify, not a black box.</h2>
             <p>
-              Ephemeris ingests conjunction data messages from Space-Track and the 18th Space Defense
-              Squadron, screened against SGP4/SP propagation rather than a single daily batch. Scoring
-              weighs time-to-TCA, miss-distance trend, and object characteristics instead of raw
-              probability alone. We&rsquo;re building the core with a small number of fleet operators
-              before opening it wider, so the system is shaped by real maneuver decisions, not
-              assumptions.
+              Space-Track and 18th Space Defense Squadron data, screened continuously against SGP4/SP propagation.<br />
+              Scoring weighs time-to-TCA, miss-distance trend, and object type, not raw probability.<br />
+              Live with a small group of fleet operators, shaping the system before wider release.
             </p>
           </section>
 
           <section className="hp-roi hp-container reveal-on-scroll">
             <h2>Operate more satellites without scaling the operations team.</h2>
-            <p>As fleets grow, conjunction volume grows faster than headcount can follow. Ephemeris is built so operators can absorb that growth without proportionally scaling their operations team, spending time on the decisions that matter instead of sorting through every alert.</p>
+            <p>Conjunction volume grows faster than headcount. Ephemeris keeps operators focused on the decisions that matter.</p>
           </section>
         </main>
 
@@ -702,7 +703,7 @@ export function LoginPage() {
             <button className="btn btn-primary" type="submit">Sign In</button>
           </form>
           <div className="login-note">
-            Demo credentials are pre-filled. This preserves the frictionless v0 login concept while routing users toward the integrated product flow.
+            Demo credentials are pre-filled and route you to the live product.
           </div>
         </section>
       </main>
@@ -1222,7 +1223,7 @@ export function ContactPage() {
             <div className="eyebrow">Get in touch</div>
             <h1 className="contact-heading">Contact Us</h1>
             <p className="contact-subheading">
-              Have a question, want to explore a partnership, or need early access? We&rsquo;d love to hear from you.
+              Have a question or want to talk? We&rsquo;d love to hear from you.
             </p>
           </div>
 
