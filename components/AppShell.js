@@ -325,6 +325,69 @@ function useCountUp(target, format, duration = 1000) {
   return [ref, value];
 }
 
+function useTensionVideo() {
+  const sectionRef = useRef(null);
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    const video = videoRef.current;
+    if (!section || !video || typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const COOLDOWN_MS = 1500;
+    const MAX_LOOPS = 3;
+    const STORAGE_KEY = "hp-tension-video-last-played";
+    let loopsPlayed = 0;
+    let playing = false;
+
+    const startCycle = () => {
+      let last = 0;
+      try { last = Number(sessionStorage.getItem(STORAGE_KEY) || 0); } catch (e) { /* ignore */ }
+      const now = Date.now();
+      if (now - last < COOLDOWN_MS) return;
+      try { sessionStorage.setItem(STORAGE_KEY, String(now)); } catch (e) { /* ignore */ }
+      loopsPlayed = 0;
+      playing = true;
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    };
+
+    const onEnded = () => {
+      loopsPlayed += 1;
+      if (loopsPlayed < MAX_LOOPS) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      } else {
+        playing = false;
+      }
+    };
+
+    video.addEventListener("ended", onEnded);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startCycle();
+          } else if (playing) {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.35 }
+    );
+    io.observe(section);
+
+    return () => {
+      io.disconnect();
+      video.removeEventListener("ended", onEnded);
+    };
+  }, []);
+
+  return { sectionRef, videoRef };
+}
+
 function HeroTelemetry() {
   const [missRef, missVal] = useCountUp(3732, (v) => Math.round(v).toLocaleString());
   const [pcRef, pcVal] = useCountUp(1.4, (v) => v.toFixed(1));
@@ -469,6 +532,7 @@ function HomeClosingFooter() {
 
 export function HomePage() {
   useStars();
+  const tensionVideo = useTensionVideo();
   return (
     <>
       <Head>
@@ -512,7 +576,17 @@ export function HomePage() {
             </div>
           </section>
 
-          <section className="hp-tension hp-container reveal-on-scroll">
+          <section className="hp-tension hp-container reveal-on-scroll" ref={tensionVideo.sectionRef}>
+            <video
+              ref={tensionVideo.videoRef}
+              className="hp-tension-bg-video"
+              src="/Satellite_cropped_bottom180.mp4"
+              muted
+              playsInline
+              preload="auto"
+              aria-hidden="true"
+            />
+            <div className="hp-tension-scrim" aria-hidden="true"></div>
             <h2>Satellite operators have more data than ever. The bottleneck is deciding when and how to move.</h2>
             <p>Conjunction alerts arrive continuously, and risk shifts as new data comes in. Mission constraints limit which maneuvers work. Operators must decide what needs action, when, and how, in one decision layer.</p>
           </section>
