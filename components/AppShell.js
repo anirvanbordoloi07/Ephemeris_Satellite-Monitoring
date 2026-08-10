@@ -32,10 +32,47 @@ function LinkedinIcon() {
 }
 
 const workflowSteps = [
-  ["01", "Ingest operational data", "Bring in conjunction messages, orbit updates, and fleet context so every event starts from normalized operational data."],
-  ["02", "Score real mission risk", "Rank events using escalation likelihood, object characteristics, time-to-TCA, and decision urgency rather than raw probability alone."],
-  ["03", "Focus the operator queue", "Push the most consequential conjunctions to the top while lower-signal events remain visible without overwhelming the team."],
-  ["04", "Decide with traceability", "Move from review to action with complete context, documented rationale, and compliance-ready recordkeeping."]
+  ["01", "SENSE", "Continuously understand the operational environment.", "Ingest CDMs, ephemerides, orbit updates, spacecraft state, maneuverability, mission constraints, and trusted SSA sources."],
+  ["02", "PRIORITIZE", "Know which situations require action.", "AI evaluates evolving conjunctions and predicts which events are most likely to escalate into maneuver decisions."],
+  ["03", "DECIDE", "Evaluate maneuver options in mission context.", "Surface the operational tradeoffs behind each decision, including timing, collision risk, fuel, mission constraints, and downstream consequences."],
+  ["04", "MANEUVER", "Move from recommendation to operator-approved action.", "Give operators a clear path from alert to maneuver plan while maintaining human approval and full traceability."],
+  ["05", "LEARN", "Improve with every operational decision.", "Capture operator actions and outcomes so Ephemeris learns fleet preferences, operational constraints, and maneuver behavior over time."]
+];
+
+const aiCapabilities = [
+  ["Predict escalation", "Identify which conjunctions are evolving toward operator intervention."],
+  ["Understand mission context", "Evaluate spacecraft constraints, maneuverability, timing, operational priorities, and event history."],
+  ["Rank maneuver options", "Compare candidate actions based on risk mitigation and mission tradeoffs."],
+  ["Learn operator behavior", "Adapt recommendations based on previous decisions and fleet-specific operating preferences."]
+];
+
+const osCharacteristics = [
+  ["Unified state", "One continuously updated view of conjunctions, spacecraft state, mission constraints, and planned maneuvers."],
+  ["Decision engine", "AI identifies situations requiring action and evaluates available responses."],
+  ["Workflow orchestration", "Move decisions across analysts, mission leads, approvals, coordination, and execution."],
+  ["Operational memory", "Every decision and outcome becomes part of the fleet's institutional knowledge."]
+];
+
+const useCases = [
+  ["Collision Avoidance", "Turn conjunction alerts into timely, defensible maneuver decisions.", "Available today", true],
+  ["Station Keeping", "Plan routine orbit corrections while balancing mission objectives and spacecraft resources.", "Platform direction", false],
+  ["Orbit Maintenance", "Coordinate maneuvers across mission constraints and fleet operations.", "Platform direction", false],
+  ["Constellation Coordination", "Understand maneuver interactions across increasingly autonomous fleets.", "Platform direction", false]
+];
+
+const humanControlPoints = [
+  ["Explainability", "Every recommendation shows the reasoning and data behind it."],
+  ["Approvals", "Nothing executes without an operator signing off."],
+  ["Audit trail", "Every recommendation and decision is logged and traceable."],
+  ["Operational memory", "Past decisions shape future recommendations."]
+];
+
+const maneuverReasons = [
+  ["up", "Miss distance deteriorating"],
+  ["up", "Covariance convergence"],
+  ["up", "Pc trend"],
+  ["check", "Fuel impact within mission constraint"],
+  ["check", "No conflict with planned imaging window"]
 ];
 
 const dashboardMetrics = [
@@ -178,15 +215,14 @@ function Header() {
         </Link>
         <nav className="topnav" aria-label="Primary">
           <a href="/#platform">Platform</a>
-          <a href="/#operator-view">Operator View</a>
-          <a href="/#workflow">Workflow</a>
+          <a href="/#use-cases">Use Cases</a>
+          <a href="/#how-it-works">How It Works</a>
           <a href="/#trust">Trust</a>
-          <Link href="/contact">Contact</Link>
+          <Link href="/company">Company</Link>
         </nav>
         <div className="topbar-actions">
-          <a className="btn btn-product" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer">PRODUCT</a>
-          <Link className="btn btn-ghost btn-desktop-only" href="/contact">CONTACT US</Link>
-          <Link className="btn btn-ghost btn-desktop-only" href="/signup">Get Started</Link>
+          <a className="topnav-product-link btn-desktop-only" href={PRODUCT_URL} target="_blank" rel="noreferrer">Product</a>
+          <Link className="btn btn-primary btn-desktop-only" href="/contact">Book a Demo</Link>
           <button
             className="hamburger"
             onClick={() => setMenuOpen(o => !o)}
@@ -200,12 +236,13 @@ function Header() {
       {menuOpen && (
         <nav className="mobile-nav" aria-label="Mobile navigation">
           <a href="/#platform" onClick={close}>Platform</a>
-          <a href="/#operator-view" onClick={close}>Operator View</a>
-          <a href="/#workflow" onClick={close}>Workflow</a>
+          <a href="/#use-cases" onClick={close}>Use Cases</a>
+          <a href="/#how-it-works" onClick={close}>How It Works</a>
           <a href="/#trust" onClick={close}>Trust</a>
+          <Link href="/company" onClick={close}>Company</Link>
+          <a href={PRODUCT_URL} target="_blank" rel="noreferrer" onClick={close}>Product</a>
           <div className="mobile-nav-divider" />
-          <Link href="/contact" onClick={close}>Contact Us</Link>
-          <Link href="/signup" onClick={close} className="mobile-nav-cta">Get Started</Link>
+          <Link href="/contact" onClick={close} className="mobile-nav-cta">Book a Demo</Link>
         </nav>
       )}
     </header>
@@ -315,12 +352,14 @@ function HomeNav() {
         </Link>
         <nav className="hp-nav-links" aria-label="Primary">
           <a href="#platform">Platform</a>
-          <a href="#workflow">Workflow</a>
+          <a href="#use-cases">Use Cases</a>
+          <a href="#how-it-works">How It Works</a>
           <a href="#trust">Trust</a>
+          <Link href="/company">Company</Link>
         </nav>
         <div className="hp-nav-actions">
-          <Link href="/contact" className="hp-nav-contact">Contact</Link>
-          <Link href="/signup" className="hp-btn hp-btn-primary hp-btn-sm">Sign up</Link>
+          <a href={PRODUCT_URL} target="_blank" rel="noreferrer" className="hp-nav-contact">Product</a>
+          <Link href="/contact" className="hp-btn hp-btn-primary hp-btn-sm">Book a Demo</Link>
           <button className="hp-nav-toggle" onClick={() => setOpen((o) => !o)} aria-label="Toggle menu" aria-expanded={open}>
             {open ? <X size={20} /> : <Menu size={20} />}
           </button>
@@ -329,13 +368,80 @@ function HomeNav() {
       {open && (
         <nav className="hp-nav-mobile" aria-label="Mobile">
           <a href="#platform" onClick={close}>Platform</a>
-          <a href="#workflow" onClick={close}>Workflow</a>
+          <a href="#use-cases" onClick={close}>Use Cases</a>
+          <a href="#how-it-works" onClick={close}>How It Works</a>
           <a href="#trust" onClick={close}>Trust</a>
-          <Link href="/contact" onClick={close}>Contact</Link>
-          <Link href="/signup" onClick={close} className="hp-nav-mobile-cta">Sign up</Link>
+          <Link href="/company" onClick={close}>Company</Link>
+          <a href={PRODUCT_URL} target="_blank" rel="noreferrer" onClick={close}>Product</a>
+          <Link href="/contact" onClick={close} className="hp-nav-mobile-cta">Book a Demo</Link>
         </nav>
       )}
     </header>
+  );
+}
+
+function ManeuverPanel() {
+  return (
+    <div className="hp-maneuver-panel">
+      <div className="hp-maneuver-head">
+        <div className="hp-maneuver-route">
+          <span>COSMOS-2251 DEB</span>
+          <span className="hp-maneuver-arrow" aria-hidden="true">&rarr;</span>
+          <span>EPHEMERIS-07</span>
+        </div>
+        <span className="risk-badge critical">Action recommended</span>
+      </div>
+      <div className="hp-maneuver-subline">Risk escalating</div>
+      <div className="hp-maneuver-stats">
+        <div className="hp-maneuver-stat">
+          <span className="hp-maneuver-stat-label">TCA</span>
+          <span className="hp-maneuver-stat-value">19h 42m</span>
+        </div>
+        <div className="hp-maneuver-stat">
+          <span className="hp-maneuver-stat-label">Decision deadline</span>
+          <span className="hp-maneuver-stat-value hp-maneuver-stat-urgent">6h 18m</span>
+        </div>
+      </div>
+      <div className="hp-maneuver-rec">
+        <div className="hp-maneuver-rec-label">Recommended maneuver</div>
+        <div className="hp-maneuver-rec-grid">
+          <div className="hp-maneuver-rec-item"><span>+12.4 m</span><small>Along-track</small></div>
+          <div className="hp-maneuver-rec-item"><span>0.18 m/s</span><small>Delta-V</small></div>
+          <div className="hp-maneuver-rec-item hp-maneuver-rec-item-wide"><span>03:20 to 03:42 UTC</span><small>Execution window</small></div>
+        </div>
+      </div>
+      <div className="hp-maneuver-why">
+        <div className="hp-maneuver-why-label">Why Ephemeris recommends action</div>
+        {maneuverReasons.map(([type, text]) => (
+          <div className="hp-maneuver-reason" key={text}>
+            <span className={`hp-maneuver-reason-icon hp-maneuver-reason-${type}`} aria-hidden="true">{type === "up" ? "↑" : "✓"}</span>
+            {text}
+          </div>
+        ))}
+      </div>
+      <Link href="/contact" className="hp-maneuver-review">Review maneuver <span aria-hidden="true">&rarr;</span></Link>
+    </div>
+  );
+}
+
+function ArchitectureStack() {
+  return (
+    <div className="hp-stack">
+      <div className="hp-stack-tier">
+        <div className="hp-stack-tier-label">SSA &amp; Mission Data</div>
+        <div className="hp-stack-tier-items">Space-Track &middot; Operator ephemerides &middot; Commercial SSA &middot; Spacecraft telemetry &middot; Mission constraints</div>
+      </div>
+      <div className="hp-stack-arrow" aria-hidden="true">&darr;</div>
+      <div className="hp-stack-tier hp-stack-tier-core">
+        <div className="hp-stack-tier-label">Ephemeris: AI Decision Layer</div>
+        <div className="hp-stack-tier-items">Understand &middot; Predict &middot; Prioritize &middot; Recommend &middot; Learn</div>
+      </div>
+      <div className="hp-stack-arrow" aria-hidden="true">&darr;</div>
+      <div className="hp-stack-tier">
+        <div className="hp-stack-tier-label">Satellite Operations</div>
+        <div className="hp-stack-tier-items">Collision Avoidance &middot; Station Keeping &middot; Orbit Maintenance &middot; Fleet Coordination</div>
+      </div>
+    </div>
   );
 }
 
@@ -344,14 +450,15 @@ function HomeClosingFooter() {
     <footer className="hp-closing">
       <OrbitalMotif className="hp-motif-footer" />
       <div className="hp-container hp-closing-inner reveal-on-scroll">
-        <h2>Bring your fleet&rsquo;s conjunction data into one queue.</h2>
-        <a className="hp-btn hp-btn-primary" href={PRODUCT_URL} target="_blank" rel="noreferrer">Launch dashboard</a>
+        <h2>Bring intelligence to every maneuver decision.</h2>
+        <Link className="hp-btn hp-btn-primary" href="/contact">Book a Demo</Link>
       </div>
       <div className="hp-container hp-footer-legal">
         <Link href="/" className="hp-footer-brand">
           <img src="/logo.svg" alt="Ephemeris" style={{ height: 20, width: "auto" }} />
         </Link>
         <nav className="hp-footer-links" aria-label="Legal">
+          <Link href="/company">Company</Link>
           <Link href="/contact">Contact</Link>
         </nav>
         <div className="hp-footer-copy">© Ephemeris. All rights reserved.</div>
@@ -365,21 +472,21 @@ export function HomePage() {
   return (
     <>
       <Head>
-        <title>Ephemeris — Decision intelligence for satellite collision avoidance</title>
+        <title>Ephemeris | AI Operating System for Satellite Maneuvering</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta
           name="description"
-          content="Ephemeris scores real mission risk from raw conjunction data messages and gives satellite operators one prioritized, audit-ready decision queue."
+          content="Ephemeris helps satellite operators prioritize conjunctions, evaluate maneuver options, and make faster, explainable maneuver decisions across growing fleets."
         />
         <link rel="canonical" href="https://www.ephemeristech.com/" />
-        <meta property="og:title" content="Ephemeris — Decision intelligence for satellite collision avoidance" />
-        <meta property="og:description" content="Score real mission risk from raw CDMs and act from one prioritized, audit-ready queue." />
+        <meta property="og:title" content="Ephemeris | AI Operating System for Satellite Maneuvering" />
+        <meta property="og:description" content="Ephemeris helps satellite operators prioritize conjunctions, evaluate maneuver options, and make faster, explainable maneuver decisions across growing fleets." />
         <meta property="og:image" content="https://www.ephemeristech.com/og-image.png" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.ephemeristech.com/" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Ephemeris — Decision intelligence for satellite collision avoidance" />
-        <meta name="twitter:description" content="Score real mission risk from raw CDMs and act from one prioritized, audit-ready queue." />
+        <meta name="twitter:title" content="Ephemeris | AI Operating System for Satellite Maneuvering" />
+        <meta name="twitter:description" content="Ephemeris helps satellite operators prioritize conjunctions, evaluate maneuver options, and make faster, explainable maneuver decisions across growing fleets." />
         <meta name="twitter:image" content="https://www.ephemeristech.com/og-image.png" />
       </Head>
       <a href="#hp-main" className="hp-skip-link">Skip to content</a>
@@ -389,42 +496,95 @@ export function HomePage() {
         <main id="hp-main">
           <section className="hp-hero">
             <OrbitalMotif className="hp-motif-hero" />
-            <div className="hp-container hp-hero-inner reveal-on-scroll">
-              <HeroTelemetry />
-              <h1>Turn the CDM flood into a ranked decision queue.</h1>
-              <p>Ephemeris ingests every conjunction data message, scores real mission risk, and gives operators one prioritized queue with a compliance-ready decision trail.</p>
-              <div className="hp-hero-actions">
-                <a className="hp-btn hp-btn-primary" href={PRODUCT_URL} target="_blank" rel="noreferrer">Launch dashboard</a>
-                <a className="hp-btn hp-btn-outline" href="#workflow">See how it works</a>
+            <div className="hp-container hp-hero-grid">
+              <div className="hp-hero-inner reveal-on-scroll">
+                <HeroTelemetry />
+                <h1>The AI operating system for satellite maneuvering.</h1>
+                <p>Ephemeris turns conjunction alerts and mission constraints into prioritized, explainable maneuver decisions, helping satellite operators act faster, operate larger fleets, and keep humans in control.</p>
+                <div className="hp-hero-actions">
+                  <Link className="hp-btn hp-btn-primary" href="/contact">Book a Demo</Link>
+                  <a className="hp-btn hp-btn-outline" href="#platform">See the Platform</a>
+                </div>
+              </div>
+              <div className="hp-hero-visual reveal-on-scroll">
+                <ManeuverPanel />
               </div>
             </div>
           </section>
 
           <section className="hp-tension hp-container reveal-on-scroll">
-            <h2>Operators don&rsquo;t have a data problem. They have a triage problem.</h2>
-            <p>A single fleet can receive hundreds of CDMs a week, and almost all of them are noise. The cost isn&rsquo;t reading the data — it&rsquo;s finding the handful of events that need a maneuver decision before the window closes.</p>
+            <h2>Satellite operators have more data than ever. The bottleneck is deciding when and how to move.</h2>
+            <p>Conjunction alerts arrive continuously. Risk evolves as new observations come in. Mission constraints change what maneuvers are possible. Operators must determine what requires action, when to act, and which maneuver best protects the mission. Ephemeris brings that decision process into one intelligent operating layer.</p>
           </section>
 
-          <section className="hp-viz" id="platform">
-            <div className="hp-viz-frame reveal-on-scroll">
-              <NextImage
-                src="/conjunction-globe.png"
-                alt="Ephemeris conjunction analyzer showing a Cesium globe with the VANGUARD 1 satellite track and a time-of-closest-approach marker over North Africa"
-                fill
-                sizes="(max-width: 1180px) 100vw, 1180px"
-                className="hp-viz-img"
-                priority={false}
-              />
+          <section className="hp-ai hp-container reveal-on-scroll">
+            <div className="hp-section-heading">
+              <h2>AI built around how operators actually maneuver satellites.</h2>
             </div>
-            <div className="hp-viz-caption">sample fleet · illustrative</div>
+            <div className="hp-ai-grid">
+              {aiCapabilities.map(([title, body]) => (
+                <div className="hp-ai-card" key={title}>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              ))}
+            </div>
           </section>
 
-          <section className="hp-workflow hp-container reveal-on-scroll" id="workflow">
-            <h2>How Ephemeris gets from data to decision</h2>
+          <section className="hp-workflow hp-container reveal-on-scroll" id="how-it-works">
+            <h2>How Ephemeris turns data into maneuver decisions</h2>
             <div className="hp-workflow-rail">
-              {workflowSteps.map(([step, title, body]) => (
+              {workflowSteps.map(([step, label, title, body]) => (
                 <div className="hp-workflow-step" key={step}>
                   <div className="hp-workflow-index">{step}</div>
+                  <div className="hp-workflow-label">{label}</div>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="hp-arch hp-container reveal-on-scroll" id="platform">
+            <div className="hp-section-heading">
+              <h2>Built on the systems you already trust.</h2>
+            </div>
+            <ArchitectureStack />
+            <p className="hp-arch-note">We don&rsquo;t replace your SSA provider or your mission control system. Ephemeris sits between them, acting as the intelligence and orchestration layer for every maneuver decision. Conjunction data is ingested from Space-Track and the 18th Space Defense Squadron and screened against SGP4/SP propagation.</p>
+            <div className="hp-os-grid">
+              {osCharacteristics.map(([title, body]) => (
+                <div className="hp-os-item" key={title}>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="hp-usecases hp-container reveal-on-scroll" id="use-cases">
+            <div className="hp-section-heading">
+              <h2>Built for every maneuver decision.</h2>
+            </div>
+            <div className="hp-usecase-lead">
+              <div className="hp-usecase-lead-visual">
+                <NextImage
+                  src="/conjunction-globe.png"
+                  alt="Ephemeris conjunction analyzer showing a Cesium globe with the VANGUARD 1 satellite track and a time-of-closest-approach marker over North Africa"
+                  fill
+                  sizes="(max-width: 900px) 100vw, 640px"
+                  className="hp-usecase-lead-img"
+                />
+              </div>
+              <div className="hp-usecase-lead-copy">
+                <span className="hp-usecase-tag hp-usecase-tag-live">Available today</span>
+                <h3>{useCases[0][0]}</h3>
+                <p>{useCases[0][1]}</p>
+              </div>
+            </div>
+            <div className="hp-usecase-grid">
+              {useCases.slice(1).map(([title, body, tag]) => (
+                <div className="hp-usecase-card" key={title}>
+                  <span className="hp-usecase-tag">{tag}</span>
                   <h3>{title}</h3>
                   <p>{body}</p>
                 </div>
@@ -436,15 +596,36 @@ export function HomePage() {
             <OrbitalMotif className="hp-motif-divider" stretch />
           </div>
 
+          <section className="hp-humancontrol hp-container reveal-on-scroll">
+            <div className="hp-section-heading">
+              <h2>AI-powered. Operator-controlled.</h2>
+              <p>Ephemeris explains why an event requires attention, what changed, what maneuver options exist, and which tradeoffs informed each recommendation. Operators approve the decision. Ephemeris handles the complexity.</p>
+            </div>
+            <div className="hp-humancontrol-grid">
+              {humanControlPoints.map(([title, body]) => (
+                <div className="hp-humancontrol-item" key={title}>
+                  <h3>{title}</h3>
+                  <p>{body}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
           <section className="hp-credibility hp-container reveal-on-scroll" id="trust">
-            <h2>Built for the data operators already trust</h2>
+            <h2>Data you can verify, not a black box.</h2>
             <p>
               Ephemeris ingests conjunction data messages from Space-Track and the 18th Space Defense
               Squadron, screened against SGP4/SP propagation rather than a single daily batch. Scoring
               weighs time-to-TCA, miss-distance trend, and object characteristics instead of raw
-              probability alone. We&rsquo;re currently working with a small number of design-partner
-              operators to validate that scoring against real maneuver decisions.
+              probability alone. We&rsquo;re building the core with a small number of fleet operators
+              before opening it wider, so the system is shaped by real maneuver decisions, not
+              assumptions.
             </p>
+          </section>
+
+          <section className="hp-roi hp-container reveal-on-scroll">
+            <h2>Operate more satellites without scaling the operations team.</h2>
+            <p>As fleets grow, conjunction volume grows faster than headcount can follow. Ephemeris is built so operators can absorb that growth without proportionally scaling their operations team, spending time on the decisions that matter instead of sorting through every alert.</p>
           </section>
         </main>
 
@@ -463,15 +644,16 @@ export function SiteFooter() {
             <Link className="brand" href="/">
               <img src="/logo.svg" alt="Ephemeris" style={{ height: 24, width: "auto" }} />
             </Link>
-            <p className="footer-brand-blurb">Satellite collision avoidance intelligence, built around how operators actually review and act on conjunction risk.</p>
+            <p className="footer-brand-blurb">The AI operating system for satellite maneuvering, helping operators predict, evaluate, and act on maneuver decisions across their fleets.</p>
           </div>
           <div>
             <div className="footer-col-label">Site</div>
             <div className="footer-col-links">
               <a className="footer-link" href="/#platform">Platform</a>
-              <a className="footer-link" href="/#operator-view">Operator View</a>
-              <a className="footer-link" href="/#workflow">Workflow</a>
+              <a className="footer-link" href="/#use-cases">Use Cases</a>
+              <a className="footer-link" href="/#how-it-works">How It Works</a>
               <a className="footer-link" href="/#trust">Trust</a>
+              <Link className="footer-link" href="/company">Company</Link>
             </div>
           </div>
           <div>
@@ -485,7 +667,7 @@ export function SiteFooter() {
         </div>
         <div className="footer-bottom">
           <span>Ephemeris</span>
-          <a className="btn btn-ghost" href="https://ephemeris-nine.vercel.app/" target="_blank" rel="noreferrer" style={{ letterSpacing: "0.04em" }}>PRODUCT</a>
+          <Link className="btn btn-primary btn-pill" href="/contact">Book a Demo</Link>
         </div>
       </div>
     </footer>
@@ -539,7 +721,7 @@ export function SignUpPage() {
 
   return (
     <Layout
-      title="Get Early Access — Ephemeris"
+      title="Ephemeris | Get Early Access"
       description="Sign up for early access to Ephemeris satellite collision avoidance intelligence."
     >
       <main className="login-wrap">
@@ -617,7 +799,7 @@ function DashboardFrame({ activePath, title, description, children }) {
   const isOverview = activePath === "/dashboard";
   const backHref = isOverview ? "/" : "/dashboard";
   const backLabel = isOverview ? "Home" : "Overview";
-  const pageTitle = title.replace("Ephemeris ", "").replace(" — Ephemeris", "");
+  const pageTitle = title.replace("Ephemeris | ", "").replace("Ephemeris ", "");
 
   return (
     <Layout title={title} description={description} showHeader={false}>
@@ -950,7 +1132,7 @@ export function AuditLogPage() {
         <section className="dashboard-card glass-card">
           <div className="page-hero" style={{ marginBottom: 0 }}>
             <h1 style={{ fontSize: "2rem" }}>Audit Log</h1>
-            <p>Complete record of operator actions, system updates, and decisions across the mission workflow — ready for compliance review.</p>
+            <p>Complete record of operator actions, system updates, and decisions across the mission workflow, ready for compliance review.</p>
           </div>
         </section>
 
@@ -994,7 +1176,7 @@ export function SettingsPage() {
         <section className="dashboard-card glass-card">
           <div className="page-hero" style={{ marginBottom: 0 }}>
             <h1 style={{ fontSize: "2rem" }}>Settings</h1>
-            <p>Configuration for notifications, event scoring, data sources, and audit retention — all in one place.</p>
+            <p>Configuration for notifications, event scoring, data sources, and audit retention, all in one place.</p>
           </div>
         </section>
 
@@ -1031,7 +1213,7 @@ export function ContactPage() {
 
   return (
     <Layout
-      title="Contact — Ephemeris"
+      title="Ephemeris | Contact"
       description="Get in touch with the Ephemeris team. Questions, partnerships, or early access requests."
     >
       <main>
