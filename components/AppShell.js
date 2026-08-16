@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import NextImage from "next/image";
 import { useEffect, useState, useRef } from "react";
-import { Menu, X, ChevronLeft, Mail, Send } from "lucide-react";
+import { Menu, X, ChevronLeft, ChevronRight, Mail, Send } from "lucide-react";
 
 function useTcaCountdown(initialSeconds) {
   const [seconds, setSeconds] = useState(initialSeconds);
@@ -41,8 +41,8 @@ const workflowSteps = [
 
 const aiCapabilities = [
   ["Predict escalation", "Identify which conjunctions are evolving toward operator intervention."],
-  ["Understand mission context", "Evaluate spacecraft constraints, maneuverability, timing, operational priorities, and event history."],
-  ["Rank maneuver options", "Compare candidate actions based on risk mitigation and mission tradeoffs."],
+  ["Understand mission context", "Evaluate spacecraft constraints, maneuverability, operational priorities, and event history."],
+  ["Rank maneuver options", "Compare actions based on risk mitigation and mission tradeoffs."],
   ["Learn operator behavior", "Adapt recommendations based on previous decisions and fleet-specific operating preferences."]
 ];
 
@@ -268,6 +268,86 @@ export function Layout({ title, description, children, showHeader = true }) {
 }
 
 const PRODUCT_URL = "https://ephemeris-nine.vercel.app/";
+
+function AiCapabilityCarousel({ items }) {
+  const [active, setActive] = useState(0);
+  const touchStartX = useRef(null);
+
+  const go = (i) => setActive(Math.max(0, Math.min(items.length - 1, i)));
+
+  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
+  const onTouchEnd = (e) => {
+    if (touchStartX.current === null) return;
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    if (Math.abs(dx) > 40) go(active + (dx < 0 ? 1 : -1));
+    touchStartX.current = null;
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === "ArrowRight") { e.preventDefault(); go(active + 1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); go(active - 1); }
+  };
+
+  return (
+    <div
+      className="hp-ai-carousel"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label="AI capabilities"
+      onKeyDown={onKeyDown}
+    >
+      <div className="hp-ai-viewport" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+        <div className="hp-ai-track" style={{ transform: `translateX(-${active * 100}%)` }}>
+          {items.map(([title, body], i) => (
+            <div
+              className="hp-ai-card"
+              key={title}
+              role="group"
+              aria-roledescription="slide"
+              aria-label={`${i + 1} of ${items.length}`}
+              aria-hidden={i !== active}
+            >
+              <h3>{title}</h3>
+              <p>{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="hp-ai-controls">
+        <button
+          type="button"
+          className="hp-ai-arrow"
+          onClick={() => go(active - 1)}
+          disabled={active === 0}
+          aria-label="Previous capability"
+        >
+          <ChevronLeft size={18} strokeWidth={2.2} />
+        </button>
+        <div className="hp-ai-dots">
+          {items.map(([title], i) => (
+            <button
+              type="button"
+              key={title}
+              className={`hp-ai-dot${i === active ? " active" : ""}`}
+              onClick={() => go(i)}
+              aria-label={`Go to ${title}`}
+              aria-current={i === active}
+            />
+          ))}
+        </div>
+        <button
+          type="button"
+          className="hp-ai-arrow"
+          onClick={() => go(active + 1)}
+          disabled={active === items.length - 1}
+          aria-label="Next capability"
+        >
+          <ChevronRight size={18} strokeWidth={2.2} />
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function OrbitalMotif({ className = "", stretch = false }) {
   return (
@@ -595,14 +675,7 @@ export function HomePage() {
             <div className="hp-section-heading">
               <h2>AI built around how operators actually maneuver satellites.</h2>
             </div>
-            <div className="hp-ai-grid">
-              {aiCapabilities.map(([title, body]) => (
-                <div className="hp-ai-card" key={title}>
-                  <h3>{title}</h3>
-                  <p>{body}</p>
-                </div>
-              ))}
-            </div>
+            <AiCapabilityCarousel items={aiCapabilities} />
           </section>
 
           <section className="hp-workflow hp-container reveal-on-scroll" id="how-it-works">
