@@ -697,11 +697,6 @@ export function HomePage() {
               <h2>Built on the systems you already trust.</h2>
             </div>
             <ArchitectureStack />
-            <p className="hp-arch-note">
-              Ephemeris doesn&rsquo;t replace your SSA provider or mission control. It&rsquo;s the decision layer between them.<br />
-              Conjunction data comes from Space-Track and the 18th Space Defense Squadron.<br />
-              Screened against SGP4/SP propagation.
-            </p>
             <div className="hp-os-grid">
               {osCharacteristics.map(([title, body]) => (
                 <div className="hp-os-item" key={title}>
